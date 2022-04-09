@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { cx } from '@emotion/css'
+import get from 'lodash.get'
 
 type CellRenderer = (
     data: any,
@@ -26,7 +27,7 @@ export const Cell: React.FC<CellProps> = ({
     ...props
 }) => {
     const rd = props as any
-    let content = children || rd.data
+    let content = children || get(rd.data, id)
     if (render) {
         content = render(rd.data, rd)
     } else if (Component) {
