@@ -1,15 +1,19 @@
-import reactRefresh from '@vitejs/plugin-react-refresh'
-import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
-const lib = process.env.LIBRARY ? {
-    entry: resolve(__dirname, 'src/index.ts'),
-    name: 'Gridley',
-    fileName: (format) => `gridley.${format}.js`
-} : undefined
+import reactRefresh from '@vitejs/plugin-react-refresh'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
+
+const lib = process.env.LIBRARY
+    ? {
+          entry: resolve(__dirname, 'src/index.ts'),
+          name: 'Gridley',
+          fileName: (format) => `gridley.${format}.js`,
+      }
+    : undefined
 
 export default defineConfig({
-    plugins: [reactRefresh()],
+    plugins: [reactRefresh(), dts()],
 
     resolve: {
         alias: [{ find: '@/', replacement: '/src/' }],

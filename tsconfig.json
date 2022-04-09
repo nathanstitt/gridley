@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "ES6",
     "lib": ["DOM", "ESNext"],
     "types": ["vite/client", "jest"],
@@ -12,8 +13,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "preserve",
+    "declaration": true,
     "alwaysStrict": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+export NODE_ENV=production
+
+export LIBRARY=1
+
+$(npm bin)/vite build
+
+# tsc --emitDeclarationOnly
