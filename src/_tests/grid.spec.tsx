@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react';
-import { StrictMode } from 'react';
+import { render, screen } from '@testing-library/react'
+import { StrictMode } from 'react'
+
 import { SimpleDemo } from '../../demo/simple-demo'
 
 function setUpApp() {

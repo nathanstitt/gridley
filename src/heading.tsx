@@ -11,9 +11,5 @@ interface HeadingProps {
 }
 
 export const Heading: React.FC<HeadingProps> = ({ className, children }) => {
-    return (
-        <HeadingDiv className={cx('heading', className)}>
-            {children}
-        </HeadingDiv>
-    )
+    return <HeadingDiv className={cx('heading', className)}>{children}</HeadingDiv>
 }

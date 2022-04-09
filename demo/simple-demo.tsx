@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import styled from '@emotion/styled'
 import { faker } from '@faker-js/faker'
 
@@ -11,12 +10,12 @@ interface DataRow {
     id: number
     name: string
 }
-const DATA: DataRow[] = [
-    { id: 1, name: 'Tester McTesty' },
-].concat([...Array(29)].map(() => ({
-    id: faker.datatype.number(),
-    name: faker.name.findName(),
-})))
+const DATA: DataRow[] = [{ id: 1, name: 'Tester McTesty' }].concat(
+    [...Array(29)].map(() => ({
+        id: faker.datatype.number(),
+        name: faker.name.findName(),
+    }))
+)
 
 const Name: React.FC<{ data: string }> = ({ data: name }) => (
     <span data-testid={name}>NAME: {name}</span>
@@ -46,26 +45,32 @@ export const SimpleDemo = () => {
                 },
             }}
         >
-        <Heading>
-            <Row layout="mobile">
-                <Cell id="name">mobile Name</Cell>
-                <Cell id="id">mobile ID</Cell>
-            </Row>
-            <Row layout="desktop">
-                <Cell id="id">desktop ID</Cell>
-                <Cell id="name">desktop Name</Cell>
-            </Row>
-        </Heading>
-        <Body>
-            <Row layout="mobile">
-                <Cell id="name" Component={Name} />
-                <Cell id="id" render={(n: number) => <div data-testid={`id-${n}`}>ID: {n}</div>} />
-            </Row>
-            <Row layout="desktop">
-                <Cell id="id" render={(n: number) => <div data-testid={`id-${n}`}>ID: {n}</div>} />
-                <Cell id="name" Component={Name} />
-            </Row>
-        </Body>
+            <Heading>
+                <Row layout="mobile">
+                    <Cell id="name">mobile Name</Cell>
+                    <Cell id="id">mobile ID</Cell>
+                </Row>
+                <Row layout="desktop">
+                    <Cell id="id">desktop ID</Cell>
+                    <Cell id="name">desktop Name</Cell>
+                </Row>
+            </Heading>
+            <Body>
+                <Row layout="mobile">
+                    <Cell id="name" Component={Name} />
+                    <Cell
+                        id="id"
+                        render={(n: number) => <div data-testid={`id-${n}`}>ID: {n}</div>}
+                    />
+                </Row>
+                <Row layout="desktop">
+                    <Cell
+                        id="id"
+                        render={(n: number) => <div data-testid={`id-${n}`}>ID: {n}</div>}
+                    />
+                    <Cell id="name" Component={Name} />
+                </Row>
+            </Body>
         </Grid>
     )
 }

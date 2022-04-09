@@ -6,7 +6,7 @@
   "repository": "nathanstitt/gridley",
   "main": "./dist/gridley.umd.js",
   "module": "./dist/gridley.es.js",
-  "source": "src/index.tsx",
+  "source": "src/index.ts",
   "typings": "dist/index.d.ts",
   "version": "0.0.1",
   "scripts": {

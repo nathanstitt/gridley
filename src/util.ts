@@ -14,18 +14,19 @@ export function debounce(func: () => void, timeout = 100) {
 
 export function useCurrentLayoutMatch<T extends Layouts>(
     layouts: T,
-    defaultLayout: keyof T,
+    defaultLayout: keyof T
 ): [keyof T, LayoutSpec] {
-
-    const findMatch = React.useCallback(() => (
-        Object.keys(layouts).find((layoutId) => {
+    const findMatch = React.useCallback(
+        () =>
+            Object.keys(layouts).find((layoutId) => {
             const { min, max } = layouts[layoutId]! // eslint-disable-line
-            const query = window.matchMedia?.(
-                `(min-width: ${defaultToPx(min)}) and (max-width: ${defaultToPx(max)})`
-            )
-            return query?.matches
-        })
-    ), [layouts])
+                const query = window.matchMedia?.(
+                    `(min-width: ${defaultToPx(min)}) and (max-width: ${defaultToPx(max)})`
+                )
+                return query?.matches
+            }),
+        [layouts]
+    )
 
     const [layout, setLayout] = React.useState<keyof T | 'default'>(findMatch() || 'default')
 

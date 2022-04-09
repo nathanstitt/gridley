@@ -13,7 +13,7 @@ type CellRenderer = (
 export interface CellProps {
     id: string
     className?: string
-    Component?: React.FunctionComponent | React.ComponentClass
+    Component?: React.FunctionComponent<any> | React.ComponentClass<any>
     render?: CellRenderer
 }
 
@@ -32,9 +32,5 @@ export const Cell: React.FC<CellProps> = ({
     } else if (Component) {
         content = <Component {...props} />
     }
-    return (
-        <div className={cx('cell', id, className)}>
-            {content}
-        </div>
-    )
+    return <div className={cx('cell', id, className)}>{content}</div>
 }
