@@ -24,6 +24,10 @@
     "@emotion/styled": ">=10.0.0",
     "react": ">=16.0.0"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "devDependencies": {
     "@emotion/css": ">=11.9.0",
     "@emotion/react": "^11.9.0",
