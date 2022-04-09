@@ -8,7 +8,7 @@
   "module": "./dist/gridley.es.js",
   "source": "src/index.ts",
   "typings": "dist/index.d.ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "vite",
     "build": "tsc && LIBRARY=1 vite build",
