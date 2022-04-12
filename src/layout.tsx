@@ -1,5 +1,4 @@
 import * as React from 'react'
-import type { CSSObject } from '@emotion/css'
 
 import { useGridContextDispatch } from './util'
 import { ColumnSpec, LayoutSpec } from './types'
@@ -26,17 +25,4 @@ export function Layout({ children, ...layout }: LayoutProps) {
     }, [dispatch, children, layout])
 
     return null
-
-    /* if (id !== ctx?.layoutId) {
-     *     return null
-     * } */
-
-    /* React.useEffect(() => {
-
-     *     ctx?.setColumns(React.Children.map(children, (child) => {
-     *         if (!React.isValidElement(child)) { return false }
-     *         return child.props as any as ColumnSpec
-     *     }).filter(Boolean))
-     * }, [ctx])
-     * return null */
 }

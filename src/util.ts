@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { gridContext, LayoutSpec, GridContext, GridContextProps } from './types'
+import { gridContext, LayoutSpec, GridContext } from './types'
 
 export const defaultToPx = (v: string | number) => (typeof v == 'string' ? v : `${v}px`)
 
@@ -36,10 +36,6 @@ export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
     }, [layouts, findMatch])
 
     React.useEffect(() => {
-        console.log('layouts change')
-    }, [layouts, forceLayout])
-
-    React.useEffect(() => {
         if (forceLayout) return
 
         const listener = debounce(() => {
@@ -54,21 +50,21 @@ export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
         return () => window.removeEventListener('resize', listener)
     }, [findMatch, forceLayout])
 
-  //  return React.useMemo(() => {
+    return React.useMemo(() => {
+        let dl = defaultLayout
         if (forceLayout) {
             return [forceLayout, layouts[forceLayout] as LayoutSpec]
         }
 
         if (layout === 'default') {
-            if (!defaultLayout) {
-                defaultLayout = Object.keys(layouts)[0] || 'unknown'
+            if (!dl) {
+                dl = Object.keys(layouts)[0]
             }
-            return [defaultLayout, layouts[defaultLayout] as LayoutSpec]
+            return [defaultLayout || 'unknown', layouts[dl || 'default'] as LayoutSpec]
         }
 
         return [layout as string, layouts[layout] as LayoutSpec]
-  //  }, [forceLayout, layout, layouts[layout]])
-    //return
+    }, [forceLayout, defaultLayout, layout, layouts])
 }
 
 export function useCurrentLayout() {

@@ -25,14 +25,8 @@ const gridContextReducer = produce(
                 }
                 return
             }
-            case 'ADD_RENDERER': {
-                const { renderer } = action
-                const existing = draft.renderers[renderer.columnId]
-                if (existing) {
-                    deepmerge(existing, renderer)
-                } else {
-                    draft.renderers[renderer.columnId] = renderer
-                }
+            case 'SET_RENDERERS': {
+                draft.renderers = action.renderers
                 return
             }
         }

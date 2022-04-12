@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { cx } from '@emotion/css'
 import styled from '@emotion/styled'
 import invariant from 'tiny-invariant'
 
@@ -21,7 +20,7 @@ export const Header = () => {
         const { renderers } = ctx
         return (ctx.currentLayout?.columns || []).map((col) => {
             const header = renderers[col.id]?.header
-            invariant(header, `Missing Renderer for column {col.id}`)
+            invariant(header, `Missing Renderer for column ${col.id}`)
             return header ? (
                 React.cloneElement(header, { key: col.id, column: col })
             ) : (

@@ -12,7 +12,7 @@ type CellRenderer = (
     }
 ) => React.ReactNode
 
-export interface CellProps extends BoxProps {
+export interface CellProps {
     id?: string
     column?: ColumnSpec
     hidden?: boolean
@@ -44,10 +44,7 @@ export const Cell: React.FC<CellProps> = ({
         content = children || value
     }
     return (
-        <div
-            data-column-id={column?.id}
-            className={cx('grid-cell', id, column?.id, className)}
-        >
+        <div data-column-id={column?.id} className={cx('grid-cell', id, column?.id, className)}>
             {content}
         </div>
     )

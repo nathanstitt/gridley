@@ -2,23 +2,14 @@ import * as React from 'react'
 import styled from '@emotion/styled'
 import { faker } from '@faker-js/faker'
 
-import {
-    Gridley,
-    Cell,
-    Caption,
-    Layout,
-    Columns,
-    Column,
-    ColumnLayout,
-    Layout,
-    Renderer,
-} from '../src/index'
+import { Gridley, Cell, Caption, Columns, Column, Layout } from '../src/index'
 
 const Grid = styled(Gridley)({})
 
 interface DataRow {
     id: number
-    name: string
+    firstName: string
+    lastName: string
 }
 const makeData = (): DataRow[] => {
     return [{ id: 1, firstName: 'Tester', lastName: 'McTesty' }].concat(
@@ -30,8 +21,10 @@ const makeData = (): DataRow[] => {
     )
 }
 
-const Name: React.FC<{ data: string }> = ({ data: name }) => (
-    <span data-testid={name}>NAME: {name}</span>
+const FirstName: React.FC<{ value?: string }> = ({ value: name }) => (
+    <span data-column-id="firstName" data-testid={name}>
+        NAME: {name}
+    </span>
 )
 
 export const SimpleDemo = () => {
@@ -47,21 +40,19 @@ export const SimpleDemo = () => {
                 </Caption>
             }
         >
-            <Renderer
-                columnId="id"
-                header={<Cell>ID</Cell>}
-                body={<Cell render={(n: number) => <span>{n}</span>} />}
-            />
-            <Renderer
-                columnId="firstName"
-                header={<Cell id="name">F Name</Cell>}
-                body={<Cell id="name" render={(n: string) => <span>{n}</span>} />}
-            />
-            <Renderer
-                columnId="lastName"
-                header={<Cell>L Name</Cell>}
-                body={<Cell render={(id: number) => id} />}
-            />
+            <Columns>
+                <Column
+                    id="id"
+                    header={<Cell>ID</Cell>}
+                    body={<Cell render={(n: number) => <span>{n}</span>} />}
+                />
+                <Column id="firstName" header={<Cell>F Name</Cell>} body={<FirstName />} />
+                <Column
+                    id="lastName"
+                    header={<Cell>L Name</Cell>}
+                    body={<Cell render={(id: number) => id} />}
+                />
+            </Columns>
 
             <Layout
                 stripe
@@ -70,15 +61,29 @@ export const SimpleDemo = () => {
                 max="500"
                 style={{
                     '.grid-cell.id': { color: 'red' },
+                    '.grid-header': {
+                        '.id, .lastName': {
+                            borderBottom: '1px solid black',
+                        },
+                    },
                 }}
             >
                 <Column id="firstName" />
                 <Column id="id" min={20} max={80} rowSpan={2} justify="end" />
-                <Column id="lastName" colSpan={0} />
+                <Column id="lastName" wrap />
             </Layout>
 
-            <Layout id="desktop" min={501} max="100vw">
-                <Column id="id" />
+            <Layout
+                id="desktop"
+                min={550}
+                max="100vw"
+                style={{
+                    '.grid-header > *': {
+                        borderBottom: '1px solid black',
+                    },
+                }}
+            >
+                <Column id="id" max={120} />
                 <Column id="firstName" />
                 <Column id="lastName" />
             </Layout>

@@ -1,23 +1,17 @@
 import * as React from 'react'
 import { CSSObject, cx } from '@emotion/css'
 import styled from '@emotion/styled'
+import deepmerge from 'deepmerge'
 
 import { useGridContextProvider } from './store'
 import { Body } from './body'
 import { Header } from './header'
-import { ColumnSpec, GridContextProvider } from './types'
-import type {
-    Layouts,
-    GridContextState,
-    GridContextProps,
-    DispatchAction,
-    LayoutSpec,
-} from './types'
-import { JUSTIFY_CONTENT, } from './types'
-import { useCurrentLayoutMatch, defaultToPx } from './util'
+import { ColumnSpec, GridContextProvider, JUSTIFY_CONTENT } from './types'
+import type { GridContextProps, LayoutSpec } from './types'
+import { defaultToPx } from './util'
 
 const colTmplStyle = (c: ColumnSpec) => {
-    let rule = c.colSpan === 0 ? '' : 'auto'
+    let rule = c.wrap ? '' : 'auto'
     if (c.width) {
         rule = defaultToPx(c.width)
     } else if (c.min || c.max) {
@@ -44,25 +38,25 @@ const colStyle = (c: ColumnSpec) => {
     return rule
 }
 
-const Grid = styled.div(({ layout }: { layout: LayoutSpec }) => {
+const styleForLayout = (layout: LayoutSpec) => {
     const style: CSSObject = {
         display: 'grid',
         '[data-column-id]': { display: 'flex', alignItems: 'center' },
         gridTemplateColumns: layout.columns.map(colTmplStyle).join(' '),
-        ...layout.columns.reduce(
-            (css, c) => ({ ...css, [`[data-column-id="${c.id}"]`]: colStyle(c) }),
-            {}
-        ),
-        ...layout.style,
     }
-    if (layout.stripe) {
+    if (layout.stripe !== false) {
         style['.grid-row:nth-of-type(2n) > *'] = {
-            backgroundColor: layout.stripe === true ? '#e8e8e8' : layout.stripe,
+            backgroundColor: typeof layout.stripe === 'string' ? layout.stripe : '#e8e8e8',
         }
     }
-    console.log(style)
-    return style
-})
+    const columnStyles = layout.columns.reduce(
+        (css, c) => ({ ...css, [`[data-column-id="${c.id}"]`]: colStyle(c) }),
+        {}
+    )
+    return deepmerge.all([style, columnStyles, layout.style || {}]) as CSSObject
+}
+
+const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layoutStyles)
 
 interface GridleyProps<Data extends any[]> extends GridContextProps {
     caption?: React.ReactElement
@@ -75,19 +69,15 @@ export function Gridley<Data extends any[]>(props: React.PropsWithChildren<Gridl
 
     const context = useGridContextProvider(defaultLayout, forceLayout)
 
-    React.useEffect(() => {
-        console.log('props ch')
-    }, [defaultLayout, forceLayout])
-
-    const layout = React.useMemo(() => {
-        console.log('recomput la')
-        return context.state.currentLayout || { style: {}, columns: [] }
-    }, [context])
+    const style = React.useMemo<CSSObject>(
+        () => styleForLayout(context.state.currentLayout || { style: {}, columns: [] }),
+        [context.state.currentLayout]
+    )
 
     return (
         <GridContextProvider value={context}>
             {caption && caption}
-            <Grid className={cx('gridley', className)} layout={layout}>
+            <Grid className={cx('gridley', className, context.state.layoutId)} layoutStyles={style}>
                 <Header />
                 <Body data={data} />
                 {children}

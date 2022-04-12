@@ -1,23 +1,14 @@
 import * as React from 'react'
 import type { CSSObject } from '@emotion/react'
 
-// export interface ColumnSpec {
-//     columnId: string
-//     width: string
-//     rowSpan?: number
-// }
-
 export interface LayoutSpec {
     id: string
     style?: CSSObject
-    stripe?: true | 'string'
+    stripe?: boolean | 'string'
     min: string | number
     max: string | number
     columns: ColumnSpec[]
 }
-
-//export type Layouts = Record<string, LayoutSpec>
-//export type LayoutKey = keyof Layouts
 
 export const JUSTIFY_CONTENT = {
     around: 'around',
@@ -27,23 +18,25 @@ export const JUSTIFY_CONTENT = {
     start: 'flex-start',
     stretch: 'stretch',
 }
-
-export interface ColumnSpec {
+export interface LayoutColumnSpec {
     id: string
     min?: string | number
     max?: string | number
     width?: string | number
     colSpan?: number
+    wrap?: boolean
     rowSpan?: number
     justify?: keyof typeof JUSTIFY_CONTENT
 }
 
 export interface RendererSpec {
-    columnId: string
+    id: string
     dataPath?: string
-    header: React.ReactElement
-    body: React.ReactElement
+    header?: React.ReactElement
+    body?: React.ReactElement
 }
+
+export interface ColumnSpec extends LayoutColumnSpec, RendererSpec {}
 
 export interface GridContextProps extends Record<string, any> {
     defaultLayout?: string
@@ -64,7 +57,7 @@ export interface GridContextState extends GridContextStoreState {
 
 export type GridContextAction =
     | { type: 'ADD_LAYOUT'; layout: LayoutSpec }
-    | { type: 'ADD_RENDERER'; renderer: RendererSpec }
+    | { type: 'SET_RENDERERS'; renderers: Renderers }
 
 export interface GridContext {
     state: GridContextState

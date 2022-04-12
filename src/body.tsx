@@ -13,10 +13,6 @@ const RowDiv = styled.div({
     display: 'contents',
 })
 
-const MissingCell: React.FC<{ id: string }> = ({ id }) => (
-    <span>Missing Renderer for column {id}</span>
-)
-
 interface BodyProps<Data extends any[]> {
     data: Data
 }
@@ -25,18 +21,18 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
     const ctx = useGridContextState()
 
     const rows = React.useMemo(() => {
-        console.log(ctx)
         if (!ctx || !ctx.currentLayout) return []
         const { renderers } = ctx
         const columns = ctx.currentLayout?.columns || []
-console.log(columns)
+
         return data.map((rowData: any, i: number) => {
             return (
                 <RowDiv className="grid-row" key={i}>
                     {columns.map((col) => {
                         const r = renderers[col.id]
-                        invariant(r, `Missing Renderer for column {col.id}`)
+                        invariant(r, `Missing renderer for column ${col.id}`)
                         const { body: cell, dataPath } = r
+                        if (!cell) return <span>missing column {col.id}</span>
 
                         return React.cloneElement(cell, {
                             key: col.id,
@@ -50,6 +46,6 @@ console.log(columns)
             )
         })
     }, [ctx, data])
-  //  console.log(rows)
+
     return <BodyDiv className="grid-body">{rows}</BodyDiv>
 }
