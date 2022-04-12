@@ -20,21 +20,33 @@ interface DataRow {
     id: number
     name: string
 }
-const DATA: DataRow[] = [{ id: 1, firstName: 'Tester', lastName: 'McTesty' }].concat(
-    [...Array(29)].map(() => ({
-        id: faker.datatype.number(),
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-    }))
-)
+const makeData = (): DataRow[] => {
+    return [{ id: 1, firstName: 'Tester', lastName: 'McTesty' }].concat(
+        [...Array(29)].map(() => ({
+            id: faker.datatype.number(),
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+        }))
+    )
+}
 
 const Name: React.FC<{ data: string }> = ({ data: name }) => (
     <span data-testid={name}>NAME: {name}</span>
 )
 
 export const SimpleDemo = () => {
+    const [data, setData] = React.useState(makeData())
+
     return (
-        <Grid data={DATA} defaultLayout="mobile" caption={<Caption>Hello caption</Caption>}>
+        <Grid
+            data={data}
+            defaultLayout="mobile"
+            caption={
+                <Caption>
+                    Hello caption <button onClick={() => setData(makeData())}>update</button>
+                </Caption>
+            }
+        >
             <Renderer
                 columnId="id"
                 header={<Cell>ID</Cell>}
@@ -52,6 +64,7 @@ export const SimpleDemo = () => {
             />
 
             <Layout
+                stripe
                 id="mobile"
                 min="0"
                 max="500"
@@ -59,8 +72,8 @@ export const SimpleDemo = () => {
                     '.grid-cell.id': { color: 'red' },
                 }}
             >
-                <Column id="id" min={10} max={100} rowSpan={2} />
                 <Column id="firstName" />
+                <Column id="id" min={20} max={80} rowSpan={2} justify="end" />
                 <Column id="lastName" colSpan={0} />
             </Layout>
 

@@ -12,9 +12,10 @@ export function debounce(func: () => void, timeout = 100) {
     }
 }
 
-export function useCurrentLayoutMatch<L extends Layouts>(
+export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
     layouts: L,
-    { defaultLayout, forceLayout }: GridContextProps
+    defaultLayout?: string,
+    forceLayout?: string
 ): [string, LayoutSpec] {
     const findMatch = React.useCallback(() => {
         if (forceLayout) return null
@@ -32,7 +33,11 @@ export function useCurrentLayoutMatch<L extends Layouts>(
 
     React.useEffect(() => {
         setLayout(findMatch() || 'default')
-    }, [layouts])
+    }, [layouts, findMatch])
+
+    React.useEffect(() => {
+        console.log('layouts change')
+    }, [layouts, forceLayout])
 
     React.useEffect(() => {
         if (forceLayout) return
@@ -49,14 +54,21 @@ export function useCurrentLayoutMatch<L extends Layouts>(
         return () => window.removeEventListener('resize', listener)
     }, [findMatch, forceLayout])
 
-    if (forceLayout) {
-        return [forceLayout, layouts[forceLayout] as LayoutSpec]
-    }
+  //  return React.useMemo(() => {
+        if (forceLayout) {
+            return [forceLayout, layouts[forceLayout] as LayoutSpec]
+        }
 
-    if (layout === 'default') {
-        return [defaultLayout as string, layouts[defaultLayout] as LayoutSpec]
-    }
-    return [layout as string, layouts[layout] as LayoutSpec]
+        if (layout === 'default') {
+            if (!defaultLayout) {
+                defaultLayout = Object.keys(layouts)[0] || 'unknown'
+            }
+            return [defaultLayout, layouts[defaultLayout] as LayoutSpec]
+        }
+
+        return [layout as string, layouts[layout] as LayoutSpec]
+  //  }, [forceLayout, layout, layouts[layout]])
+    //return
 }
 
 export function useCurrentLayout() {
@@ -70,16 +82,12 @@ export const useIsLayoutActive = (layout?: string) => {
     return layout == null || layout === ctx.layoutId
 }
 
-export function useGridData<T = any>() {
-    return useGridContextState<T>()?.data || []
-}
-
-export function useGridContextState<D = any>() {
-    const ctx = React.useContext<GridContext<D> | null>(gridContext)
+export function useGridContextState() {
+    const ctx = React.useContext<GridContext | null>(gridContext)
     return ctx?.state || null
 }
 
-export function useGridContextDispatch<D = any>() {
-    const ctx = React.useContext<GridContext<D> | null>(gridContext)
+export function useGridContextDispatch() {
+    const ctx = React.useContext<GridContext | null>(gridContext)
     return ctx?.dispatch || null
 }

@@ -17,14 +17,19 @@ const MissingCell: React.FC<{ id: string }> = ({ id }) => (
     <span>Missing Renderer for column {id}</span>
 )
 
-export const Body = () => {
+interface BodyProps<Data extends any[]> {
+    data: Data
+}
+
+export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
     const ctx = useGridContextState()
 
     const rows = React.useMemo(() => {
-        if (!ctx?.currentLayout) return []
-        const { renderers, data } = ctx
+        console.log(ctx)
+        if (!ctx || !ctx.currentLayout) return []
+        const { renderers } = ctx
         const columns = ctx.currentLayout?.columns || []
-
+console.log(columns)
         return data.map((rowData: any, i: number) => {
             return (
                 <RowDiv className="grid-row" key={i}>
@@ -44,7 +49,7 @@ export const Body = () => {
                 </RowDiv>
             )
         })
-    }, [ctx])
-
+    }, [ctx, data])
+  //  console.log(rows)
     return <BodyDiv className="grid-body">{rows}</BodyDiv>
 }

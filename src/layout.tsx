@@ -8,20 +8,22 @@ interface LayoutProps extends Omit<LayoutSpec, 'columns'> {
     children: React.ReactNode[]
 }
 
-export function Layout({ children, ...layout }: React.PropsWithChildren<LayoutProps>) {
+export function Layout({ children, ...layout }: LayoutProps) {
     const dispatch = useGridContextDispatch()
 
     React.useEffect(() => {
         if (!dispatch) return
 
-        const columns: ColumnSpec[] = React.Children.map(children, (child) => {
-            if (React.isValidElement(child)) {
-                return child.props as any as ColumnSpec
-            }
-        }).filter(Boolean)
+        const columns =
+            React.Children.map(children, (child) => {
+                if (React.isValidElement(child)) {
+                    return child.props as any as ColumnSpec
+                }
+                return false
+            })?.filter(Boolean) || []
 
         dispatch({ type: 'ADD_LAYOUT', layout: { ...layout, columns } })
-    }, [dispatch])
+    }, [dispatch, children, layout])
 
     return null
 

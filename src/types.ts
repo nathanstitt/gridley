@@ -10,6 +10,7 @@ import type { CSSObject } from '@emotion/react'
 export interface LayoutSpec {
     id: string
     style?: CSSObject
+    stripe?: true | 'string'
     min: string | number
     max: string | number
     columns: ColumnSpec[]
@@ -18,6 +19,15 @@ export interface LayoutSpec {
 //export type Layouts = Record<string, LayoutSpec>
 //export type LayoutKey = keyof Layouts
 
+export const JUSTIFY_CONTENT = {
+    around: 'around',
+    between: 'between',
+    center: 'center',
+    end: 'flex-end',
+    start: 'flex-start',
+    stretch: 'stretch',
+}
+
 export interface ColumnSpec {
     id: string
     min?: string | number
@@ -25,6 +35,7 @@ export interface ColumnSpec {
     width?: string | number
     colSpan?: number
     rowSpan?: number
+    justify?: keyof typeof JUSTIFY_CONTENT
 }
 
 export interface RendererSpec {
@@ -38,15 +49,15 @@ export interface GridContextProps extends Record<string, any> {
     defaultLayout?: string
     forceLayout?: string
 }
-
-export interface GridContextStoreState<Data> {
-    data: Data
+export type Layouts = Record<string, LayoutSpec>
+export type Renderers = Record<string, RendererSpec>
+export interface GridContextStoreState {
     props: GridContextProps
-    layouts: Record<string, LayoutSpec>
-    renderers: Record<string, RendererSpec>
+    layouts: Layouts
+    renderers: Renderers
 }
 
-export interface GridContextState<T> extends GridContextStoreState<T> {
+export interface GridContextState extends GridContextStoreState {
     currentLayout: LayoutSpec
     layoutId: string
 }
@@ -55,12 +66,12 @@ export type GridContextAction =
     | { type: 'ADD_LAYOUT'; layout: LayoutSpec }
     | { type: 'ADD_RENDERER'; renderer: RendererSpec }
 
-export interface GridContext<Data> {
-    state: GridContextState<Data>
+export interface GridContext {
+    state: GridContextState
     dispatch: React.Dispatch<GridContextAction>
 }
 
-export const gridContext = React.createContext<GridContext<any> | null>(null)
+export const gridContext = React.createContext<GridContext | null>(null)
 gridContext.displayName = 'GridContext'
 
 export const GridContextProvider = gridContext.Provider
