@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { cx } from '@emotion/css'
-import get from 'lodash.get'
+
+import { ColumnSpec } from './types'
 
 type CellRenderer = (
     data: any,
@@ -12,7 +13,9 @@ type CellRenderer = (
 ) => React.ReactNode
 
 export interface CellProps {
-    id: string
+    id?: string
+    column?: ColumnSpec
+    hidden?: boolean
     className?: string
     Component?: React.FunctionComponent<any> | React.ComponentClass<any>
     render?: CellRenderer
@@ -20,18 +23,29 @@ export interface CellProps {
 
 export const Cell: React.FC<CellProps> = ({
     id,
+    column,
     className,
     children,
     render,
+    hidden,
     Component,
     ...props
 }) => {
+    if (hidden) return null
+
+    let content: any = ''
     const rd = props as any
-    let content = children || get(rd.data, id)
+    const value = rd.value
     if (render) {
-        content = render(rd.data, rd)
+        content = render(value, props as any)
     } else if (Component) {
-        content = <Component {...props} />
+        content = <Component value={value} {...props} />
+    } else {
+        content = children || value
     }
-    return <div className={cx('cell', id, className)}>{content}</div>
+    return (
+        <div data-column-id={column?.id} className={cx('grid-cell', id, column?.id, className)}>
+            {content}
+        </div>
+    )
 }

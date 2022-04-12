@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { GridContext, Layouts, gridContext, LayoutSpec, gridAreaContext } from './types'
+import { gridContext, LayoutSpec, GridContext, GridContextProps } from './types'
 
 export const defaultToPx = (v: string | number) => (typeof v == 'string' ? v : `${v}px`)
 
@@ -12,25 +12,31 @@ export function debounce(func: () => void, timeout = 100) {
     }
 }
 
-export function useCurrentLayoutMatch<T extends Layouts>(
-    layouts: T,
-    defaultLayout: keyof T
-): [keyof T, LayoutSpec] {
-    const findMatch = React.useCallback(
-        () =>
-            Object.keys(layouts).find((layoutId) => {
-            const { min, max } = layouts[layoutId]! // eslint-disable-line
-                const query = window.matchMedia?.(
-                    `(min-width: ${defaultToPx(min)}) and (max-width: ${defaultToPx(max)})`
-                )
-                return query?.matches
-            }),
-        [layouts]
-    )
+export function useCurrentLayoutMatch<L extends Layouts>(
+    layouts: L,
+    { defaultLayout, forceLayout }: GridContextProps
+): [string, LayoutSpec] {
+    const findMatch = React.useCallback(() => {
+        if (forceLayout) return null
 
-    const [layout, setLayout] = React.useState<keyof T | 'default'>(findMatch() || 'default')
+        return Object.keys(layouts).find((layoutId) => {
+            const { min, max } = layouts[layoutId]! // eslint-disable-line
+            const query = window.matchMedia?.(
+                `(min-width: ${defaultToPx(min)}) and (max-width: ${defaultToPx(max)})`
+            )
+            return query?.matches
+        })
+    }, [layouts, forceLayout])
+
+    const [layout, setLayout] = React.useState<keyof L | 'default'>('default')
 
     React.useEffect(() => {
+        setLayout(findMatch() || 'default')
+    }, [layouts])
+
+    React.useEffect(() => {
+        if (forceLayout) return
+
         const listener = debounce(() => {
             const found = findMatch()
             if (found) {
@@ -41,12 +47,16 @@ export function useCurrentLayoutMatch<T extends Layouts>(
         })
         window.addEventListener('resize', listener)
         return () => window.removeEventListener('resize', listener)
-    }, [findMatch])
+    }, [findMatch, forceLayout])
+
+    if (forceLayout) {
+        return [forceLayout, layouts[forceLayout] as LayoutSpec]
+    }
 
     if (layout === 'default') {
-        return [defaultLayout, layouts[defaultLayout] as LayoutSpec]
+        return [defaultLayout as string, layouts[defaultLayout] as LayoutSpec]
     }
-    return [layout, layouts[layout] as LayoutSpec]
+    return [layout as string, layouts[layout] as LayoutSpec]
 }
 
 export function useCurrentLayout() {
@@ -54,17 +64,22 @@ export function useCurrentLayout() {
 }
 
 export const useIsLayoutActive = (layout?: string) => {
-    const ctx = React.useContext(gridContext)
-
+    const ctx = useGridContextState()
     if (!ctx) return false
-    return ctx && (layout == null || layout === ctx[1])
+
+    return layout == null || layout === ctx.layoutId
 }
 
 export function useGridData<T = any>() {
-    const ctx = React.useContext<GridContext<T> | null>(gridContext)
-    return ctx ? ctx[0] : []
+    return useGridContextState<T>()?.data || []
 }
 
-export const useIsInsideGridArea = (area: string) => {
-    return React.useContext(gridAreaContext) === area
+export function useGridContextState<D = any>() {
+    const ctx = React.useContext<GridContext<D> | null>(gridContext)
+    return ctx?.state || null
+}
+
+export function useGridContextDispatch<D = any>() {
+    const ctx = React.useContext<GridContext<D> | null>(gridContext)
+    return ctx?.dispatch || null
 }

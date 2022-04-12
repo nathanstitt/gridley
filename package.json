@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "lodash.get": "^4.4.2",
+    "tiny-invariant": "^1.2.0",
     "vite-plugin-dts": "^1.0.5"
   }
 }
