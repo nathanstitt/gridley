@@ -18,9 +18,9 @@ jobs:
         run: npm install
       - name: 🥽 Run tsc
         run: npm run typecheck
-      - name: ⚠️ Run tests
-        run: npm run test
       - name: 🧹 Run eslint
         run: npm run lint
+      - name: ⚠️ Run tests
+        run: npm run test
       - name: 🏠 Build files
         run: npm run build
