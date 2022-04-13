@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from '@emotion/styled'
 import { faker } from '@faker-js/faker'
 
-import { Gridley, Cell, Caption, Columns, Column, Layout } from '../src/index'
+import { Gridley, Cell, Caption, Columns, Column, Layout, GridleyProps } from '../src/index'
 
 const Grid = styled(Gridley)({})
 
@@ -27,7 +27,7 @@ const FirstName: React.FC<{ value?: string }> = ({ value: name }) => (
     </span>
 )
 
-export const SimpleDemo = () => {
+export const SimpleDemo:React.FC<GridleyProps> = (props) => {
     const [data, setData] = React.useState(makeData())
 
     return (
@@ -39,6 +39,7 @@ export const SimpleDemo = () => {
                     Hello caption <button onClick={() => setData(makeData())}>update</button>
                 </Caption>
             }
+            {...props}
         >
             <Columns>
                 <Column

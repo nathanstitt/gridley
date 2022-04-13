@@ -4,19 +4,22 @@ import { StrictMode } from 'react'
 
 import { SimpleDemo } from '../../demo/simple-demo'
 
-function setUpApp() {
-    render(
-        <StrictMode>
-            <SimpleDemo />
-        </StrictMode>
-    )
-}
-
 describe('Simple demo test', () => {
     it('renders', () => {
-        setUpApp()
-        screen.getByTestId('Tester McTesty')
-        const rows = screen.getAllByTestId(/^id-*/)
-        expect(rows).toHaveLength(30)
+        render(
+            <StrictMode>
+                <SimpleDemo />
+            </StrictMode>
+        )
+        screen.getByTestId('Tester')
+    })
+
+    it('can force a layout', () => {
+        const { container } = render(
+            <StrictMode>
+                <SimpleDemo forceLayout="mobile" />
+            </StrictMode>
+        )
+        expect(container.querySelector('.gridley')).toHaveClass('mobile')
     })
 })

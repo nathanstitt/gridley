@@ -25,7 +25,7 @@ export default defineConfig({
         emptyOutDir: true,
         assetsDir: '.',
         rollupOptions: {
-            external: lib ? ['react', '@emotion/react', '@emotion/styled', '@emotion/css'] : [],
+            external: lib ? ['react', '@emotion/styled', '@emotion/css'] : [],
             plugins: [],
             output: {
                 // Provide global variables to use in the UMD build
