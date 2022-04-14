@@ -35,6 +35,7 @@ const CaptionDiv = styled.div({
     position: 'sticky',
     top: 0,
 })
+
 // caption uses the "useCurrentLayout" hook to obtain the current layout id
 const Caption: React.FC<{ onUpdate(): void }> = ({ onUpdate }) => {
     const layout = useCurrentLayout()
@@ -50,7 +51,7 @@ interface DemoProps extends Omit<GridleyProps<DataRow[]>, 'data'> {
     data?: DataRow[]
 }
 
-export const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
+const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
     const [data, setData] = React.useState(initialData || makeData())
 
     return (
@@ -138,3 +139,5 @@ export const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
         </Grid>
     )
 }
+
+export default Demo
