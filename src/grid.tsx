@@ -35,6 +35,7 @@ const colStyle = (c: ColumnSpec) => {
     if (c.justify) {
         rule = { ...rule, justifyContent: JUSTIFY_CONTENT[c.justify] }
     }
+    rule['--row-offset'] = defaultToPx(c.wrap || 0)
     return rule
 }
 
@@ -58,7 +59,7 @@ const styleForLayout = (layout: LayoutSpec) => {
 
 const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layoutStyles)
 
-interface GridleyProps<Data extends any[]> extends GridContextProps {
+export interface GridleyProps<Data extends any[]> extends GridContextProps {
     caption?: React.ReactElement
     className?: string
     data: Data

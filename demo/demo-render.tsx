@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { SimpleDemo } from './simple-demo'
+import { Demo } from './demo'
 
 const rootEl = document.getElementById('root')
 const root = createRoot(rootEl)
-root.render(<SimpleDemo />)
+root.render(<React.StrictMode><Demo /></React.StrictMode>)

@@ -2,7 +2,8 @@ import * as React from 'react'
 
 import { gridContext, LayoutSpec, GridContext } from './types'
 
-export const defaultToPx = (v: string | number) => (typeof v == 'string' ? v : `${v}px`)
+export const defaultToPx = (v: string | number | boolean) =>
+    typeof v == 'string' ? v : `${Number(v)}px`
 
 export function debounce(func: () => void, timeout = 100) {
     let timer: any
@@ -68,7 +69,9 @@ export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
 }
 
 export function useCurrentLayout() {
-    return
+    const ctx = useGridContextState()
+    if (!ctx) return null
+    return ctx.currentLayout
 }
 
 export const useIsLayoutActive = (layout?: string) => {

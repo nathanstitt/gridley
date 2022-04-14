@@ -43,6 +43,7 @@ export const Cell: React.FC<CellProps> = ({
     } else {
         content = children || value
     }
+
     return (
         <div data-column-id={column?.id} className={cx('grid-cell', id, column?.id, className)}>
             {content}

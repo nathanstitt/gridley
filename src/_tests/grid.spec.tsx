@@ -2,13 +2,13 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { StrictMode } from 'react'
 
-import { SimpleDemo } from '../../demo/simple-demo'
+import { Demo } from '../../demo/demo'
 
-describe('Simple demo test', () => {
+describe('grid test', () => {
     it('renders', () => {
         render(
             <StrictMode>
-                <SimpleDemo />
+                <Demo />
             </StrictMode>
         )
         screen.getByTestId('Tester')
@@ -17,7 +17,7 @@ describe('Simple demo test', () => {
     it('can force a layout', () => {
         const { container } = render(
             <StrictMode>
-                <SimpleDemo forceLayout="mobile" />
+                <Demo forceLayout="mobile" />
             </StrictMode>
         )
         expect(container.querySelector('.gridley')).toHaveClass('mobile')

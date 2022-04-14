@@ -7,6 +7,7 @@ export interface LayoutSpec {
     stripe?: boolean | 'string'
     min: string | number
     max: string | number
+    stickyHeaderTop?: boolean | number | string
     columns: ColumnSpec[]
 }
 
@@ -18,13 +19,14 @@ export const JUSTIFY_CONTENT = {
     start: 'flex-start',
     stretch: 'stretch',
 }
+
 export interface LayoutColumnSpec {
     id: string
     min?: string | number
     max?: string | number
     width?: string | number
     colSpan?: number
-    wrap?: boolean
+    wrap?: boolean | number | string
     rowSpan?: number
     justify?: keyof typeof JUSTIFY_CONTENT
 }
