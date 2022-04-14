@@ -22,4 +22,9 @@ describe('grid test', () => {
         )
         expect(container.querySelector('.gridley')).toHaveClass('mobile')
     })
+
+    it('can render arrays', () => {
+        const { container } = render(<Demo />)
+        expect(container.querySelector('.gridley')).toHaveClass('mobile')
+    })
 })

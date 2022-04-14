@@ -5,4 +5,8 @@ import { Demo } from './demo'
 
 const rootEl = document.getElementById('root')
 const root = createRoot(rootEl)
-root.render(<React.StrictMode><Demo /></React.StrictMode>)
+root.render(
+    <React.StrictMode>
+        <Demo />
+    </React.StrictMode>
+)

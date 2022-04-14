@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled from '@emotion/styled'
-import { faker } from '@faker-js/faker'
 
 import {
     Gridley,
@@ -12,34 +11,15 @@ import {
     GridleyProps,
 } from '../src/index'
 
-const Grid = styled(Gridley)({})
+import { DataRow, makeData } from './data'
 
-interface DataRow {
-    id: number
-    firstName: string
-    lastName: string
-    address: string
-}
-const makeData = (): DataRow[] => {
-    return [
-        {
-            id: 1,
-            firstName: 'Tester',
-            lastName: 'McTesty',
-            address: '123 Easy St, Anywhere USA',
-            jobTitle: 'Head Cook and Dishwasher',
-        },
-    ].concat(
-        [...Array(29)].map(() => ({
-            id: faker.datatype.number(),
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-            jobTitle: faker.name.jobTitle(),
-            address: faker.address.streetAddress(true),
-        }))
-    )
-}
+// an example of how to add styles to the Grid
+// styles listed in this manner will override gridley provided styles
+const Grid = styled(Gridley)({
+    borderBottom: '1px solid lightGrey',
+})
 
+// A custom component that renders the first name along with a custom data attribute
 const FirstName: React.FC<{ value?: string }> = ({ value: name }) => (
     <span data-column-id="firstName" data-testid={name}>
         {name}
@@ -55,6 +35,7 @@ const CaptionDiv = styled.div({
     position: 'sticky',
     top: 0,
 })
+// caption uses the "useCurrentLayout" hook to obtain the current layout id
 const Caption: React.FC<{ onUpdate(): void }> = ({ onUpdate }) => {
     const layout = useCurrentLayout()
     return (
@@ -96,12 +77,11 @@ export const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
             </Columns>
 
             <Layout
-                stripe
                 id="mobile"
                 min="0"
                 max="500"
                 style={{
-                    '.grid-cell.id': { color: 'red' },
+                    '.grid-cell.id': { color: 'darkorange' },
                     '.grid-header': {
                         '.address, .id': {
                             borderBottom: '1px solid black',
@@ -109,11 +89,11 @@ export const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                     },
                 }}
             >
+                <Column id="id" min={20} max={70} rowSpan={3} justify="center" />
                 <Column id="firstName" />
                 <Column id="lastName" />
-                <Column id="id" min={20} max={80} rowSpan={3} justify="end" />
                 <Column id="job" colSpan={2} wrap />
-                <Column id="address" colSpan={2} wrap />
+                <Column id="address" colSpan={2} wrap justify="end" />
             </Layout>
 
             <Layout
@@ -135,8 +115,8 @@ export const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column id="firstName" />
                 <Column id="lastName" />
                 <Column id="id" min={20} max={80} rowSpan={2} justify="end" />
-                <Column id="job" wrap="25px" />
                 <Column id="address" wrap={25} />
+                <Column id="job" wrap="25px" />
             </Layout>
 
             <Layout
