@@ -1,5 +1,6 @@
 import * as React from 'react'
-import styled, { CSSObject } from '@emotion/styled'
+import type { CSSObject } from '@emotion/react'
+import styled from '@emotion/styled'
 import invariant from 'tiny-invariant'
 
 import { useGridContextState, defaultToPx } from './util'

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { CSSObject } from '@emotion/css'
+import type { CSSObject } from '@emotion/react'
 
 export interface LayoutSpec {
     id: string

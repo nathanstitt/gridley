@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { CSSObject, cx } from '@emotion/css'
+import type { CSSObject } from '@emotion/react'
+import { cx } from '@emotion/css'
 import styled from '@emotion/styled'
 import deepmerge from 'deepmerge'
 
