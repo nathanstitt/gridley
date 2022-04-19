@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { cx } from '@emotion/css'
 import styled from '@emotion/styled'
 import get from 'lodash.get'
 import invariant from 'tiny-invariant'
@@ -22,12 +23,20 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
 
     const rows = React.useMemo(() => {
         if (!ctx || !ctx.currentLayout) return []
-        const { renderers } = ctx
-        const columns = ctx.currentLayout?.columns || []
-
+        const { renderers, currentLayout: layout } = ctx
+        const columns = layout.columns || []
         return data.map((rowData: any, i: number) => {
+            let rowAttrs: HTMLAttributes<div> = {}
+            if (ctx.props.rowAttributes) {
+                if (typeof ctx.props.rowAttributes === 'function') {
+                    rowAttrs = ctx.props.rowAttributes(rowData, layout)
+                } else {
+                    rowAttrs = ctx.props.rowAttributes
+                }
+            }
+//        console.log(ctx.props.rowAttributes, rowAttrs)
             return (
-                <RowDiv className="grid-row" key={i}>
+                <RowDiv key={i} {...rowAttrs} className={cx('grid-row', rowAttrs.className)}>
                     {columns.map((col) => {
                         const r = renderers[col.id]
                         invariant(r, `Missing renderer for column ${col.id}`)
@@ -38,6 +47,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                             key: col.id,
                             data,
                             rowData,
+                            layout,
                             column: col,
                             value: get(rowData, dataPath || col.id),
                         })

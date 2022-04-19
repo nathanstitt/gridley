@@ -67,9 +67,9 @@ export interface GridleyProps<Data extends any[]> extends GridContextProps {
 }
 
 export function Gridley<Data extends any[]>(props: React.PropsWithChildren<GridleyProps<Data>>) {
-    const { className, data, children, caption, defaultLayout, forceLayout } = props
+    const { className, data, children, caption } = props
 
-    const context = useGridContextProvider(defaultLayout, forceLayout)
+    const context = useGridContextProvider(props)
 
     const style = React.useMemo<CSSObject>(
         () => styleForLayout(context.state.currentLayout || { style: {}, columns: [] }),

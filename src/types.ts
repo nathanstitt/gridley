@@ -43,6 +43,9 @@ export interface ColumnSpec extends LayoutColumnSpec, RendererSpec {}
 export interface GridContextProps extends Record<string, any> {
     defaultLayout?: string
     forceLayout?: string
+    rowAttributes?:
+        | HTMLAttributes<div>
+        | ((rowData: any, layout: LayoutSpec) => HTMLAttributes<div>)
 }
 export type Layouts = Record<string, LayoutSpec>
 export type Renderers = Record<string, RendererSpec>

@@ -33,16 +33,17 @@ const gridContextReducer = produce(
     }
 )
 
-export function useGridContextProvider(defaultLayout?: string, forceLayout?: string): GridContext {
+export function useGridContextProvider(props: GridContextProps): GridContext {
     const [state, dispatch] = React.useReducer(gridContextReducer, {
         layouts: {} as Layouts,
         renderers: {} as Renderers,
+        props,
     } as GridContextStoreState)
 
     const [layoutId, currentLayout] = useCurrentLayoutMatch(
         state.layouts,
-        defaultLayout,
-        forceLayout
+        props.defaultLayout,
+        props.forceLayout
     )
 
     return React.useMemo(

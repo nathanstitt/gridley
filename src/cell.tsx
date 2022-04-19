@@ -1,16 +1,9 @@
 import * as React from 'react'
 import { cx } from '@emotion/css'
 
-import { ColumnSpec } from './types'
+import { ColumnSpec, LayoutSpec } from './types'
 
-type CellRenderer = (
-    data: any,
-    args: {
-        key: string
-        rowData: any[] | Record<string, any>
-        allData: any[]
-    }
-) => React.ReactNode
+type CellRenderer<D, R, A> = (data: D, row: R, allData: A) => React.ReactNode
 
 export interface CellProps {
     id?: string
@@ -18,7 +11,7 @@ export interface CellProps {
     hidden?: boolean
     className?: string
     Component?: React.FunctionComponent<any> | React.ComponentClass<any>
-    render?: CellRenderer
+    render?: CellRenderer<any>
 }
 
 export const Cell: React.FC<CellProps> = ({
@@ -34,14 +27,14 @@ export const Cell: React.FC<CellProps> = ({
     if (hidden) return null
 
     let content: any = ''
-    const rd = props as any
-    const value = rd.value
+    const rd = props as { value: any; rowData: any; allData: any }
+
     if (render) {
-        content = render(value, props as any)
+        content = render(rd.value, rd.rowData, rd.allData, { ...props })
     } else if (Component) {
-        content = <Component value={value} {...props} />
+        content = <Component value={rd.value} {...props} />
     } else {
-        content = children || value
+        content = children || rd.value
     }
 
     return (

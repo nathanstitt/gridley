@@ -57,6 +57,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
     return (
         <Grid
             data={data}
+            rowAttributes={(r: RowData) => ({ 'data-row-id': r.id })}
             defaultLayout="mobile"
             caption={<Caption onUpdate={() => setData(makeData())} />}
             {...props}
@@ -65,7 +66,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column
                     id="id"
                     header={<Cell>ID</Cell>}
-                    body={<Cell render={(n: number) => <span>{n}</span>} />}
+                    body={<Cell render={(_, r: DataRow) => <span>{r.id}</span>} />}
                 />
                 <Column id="firstName" header={<Cell>First Name</Cell>} body={<FirstName />} />
                 <Column
