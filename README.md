@@ -14,7 +14,7 @@ Image a grid that has every row on a single line this on desktop.  And on tablet
 
 Rendering and layouts are specified in JSX without duplication.  Each cell is rendered the same regardless of layout.
 
-For an usable example of the screenshots above, try [the sandbox example](https://codesandbox.io/s/stxg2g?module=/example.tsx) as well as the source in [demo/demo.tsx](demo/demo.tsx)
+For an usable example of the screenshots above, try [the sandbox example](https://codesandbox.io/s/o4fnxr?module=/example.tsx) as well as the source in [demo/demo.tsx](demo/demo.tsx)
 
 ## Gridley Components
 
@@ -24,6 +24,7 @@ For an usable example of the screenshots above, try [the sandbox example](https:
  * **defaultLayout** the id of the layout to use if none of the specified sizes match
  * **forceLayout** Force the grid to display using the specified layout id.  Useful for printing or any case where you want to force a certain display.
  * **caption** content to insert at the top of the grid.
+ * **rowAttributes** function | HTMLAttributes<div>  A list of attributes to be added to each row as its rendered.  If a function is specified, it will be passed the row and current layout and should return HTMLAttributes 
 
 #### Columns
 

@@ -26,7 +26,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
         const { renderers, currentLayout: layout } = ctx
         const columns = layout.columns || []
         return data.map((rowData: any, i: number) => {
-            let rowAttrs: HTMLAttributes<div> = {}
+            let rowAttrs: React.HTMLAttributes<HTMLDivElement> = {}
             if (ctx.props.rowAttributes) {
                 if (typeof ctx.props.rowAttributes === 'function') {
                     rowAttrs = ctx.props.rowAttributes(rowData, layout)
@@ -34,7 +34,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                     rowAttrs = ctx.props.rowAttributes
                 }
             }
-//        console.log(ctx.props.rowAttributes, rowAttrs)
+
             return (
                 <RowDiv key={i} {...rowAttrs} className={cx('grid-row', rowAttrs.className)}>
                     {columns.map((col) => {

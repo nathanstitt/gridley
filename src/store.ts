@@ -4,6 +4,7 @@ import deepmerge from 'deepmerge'
 
 import {
     GridContextState,
+    GridContextProps,
     GridContextStoreState,
     Layouts,
     Renderers,

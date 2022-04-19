@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker'
 
-export interface DataRow {
+export interface Person {
     id: number
     firstName: string
     lastName: string
     address: string
 }
 
-export const makeData = (): DataRow[] => {
+export const makeData = (): Person[] => {
     return [
         {
             id: 1,

@@ -44,13 +44,13 @@ export interface GridContextProps extends Record<string, any> {
     defaultLayout?: string
     forceLayout?: string
     rowAttributes?:
-        | HTMLAttributes<div>
-        | ((rowData: any, layout: LayoutSpec) => HTMLAttributes<div>)
+        | React.HTMLAttributes<HTMLDivElement>
+        | ((rowData: any, layout: LayoutSpec) => React.HTMLAttributes<HTMLDivElement>)
 }
 export type Layouts = Record<string, LayoutSpec>
 export type Renderers = Record<string, RendererSpec>
 export interface GridContextStoreState {
-    props: GridContextProps
+    props: any // work around some attributes values being typed as "readonly string" which immer doesn't like
     layouts: Layouts
     renderers: Renderers
 }
