@@ -9,14 +9,14 @@ import { Body } from './body'
 import { Header } from './header'
 import { ColumnSpec, GridContextProvider, JUSTIFY_CONTENT } from './types'
 import type { GridContextProps, LayoutSpec } from './types'
-import { defaultToPx } from './util'
+import { toPX } from './util'
 
 const colTmplStyle = (c: ColumnSpec) => {
     let rule = c.wrap ? '' : 'auto'
     if (c.width) {
-        rule = defaultToPx(c.width)
+        rule = toPX(c.width)
     } else if (c.min || c.max) {
-        rule = `minmax(${defaultToPx(c.min || 'auto')}, ${defaultToPx(c.max || 'auto')})`
+        rule = `minmax(${toPX(c.min || 'auto')}, ${toPX(c.max || 'auto')})`
     }
 
     if (c.colSpan) {
@@ -36,7 +36,7 @@ const colStyle = (c: ColumnSpec) => {
     if (c.justify) {
         rule = { ...rule, justifyContent: JUSTIFY_CONTENT[c.justify] }
     }
-    rule['--row-offset'] = defaultToPx(c.wrap || 0)
+    rule['--row-offset'] = toPX(c.wrap || 0)
     return rule
 }
 

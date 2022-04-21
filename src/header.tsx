@@ -3,7 +3,7 @@ import type { CSSObject } from '@emotion/react'
 import styled from '@emotion/styled'
 import invariant from 'tiny-invariant'
 
-import { useGridContextState, defaultToPx } from './util'
+import { useGridContextState, toPX } from './util'
 
 function stickyStyle(value: string | undefined): CSSObject {
     if (value == null) return {}
@@ -47,7 +47,7 @@ export const Header = () => {
         if (top === true) {
             sticky = '0px'
         } else {
-            sticky = defaultToPx(top)
+            sticky = toPX(top)
         }
     }
 

@@ -2,8 +2,18 @@ import * as React from 'react'
 
 import { gridContext, LayoutSpec, GridContext } from './types'
 
-export const defaultToPx = (v: string | number | boolean) =>
-    typeof v == 'string' ? v : `${Number(v)}px`
+export const defaultToPx = (
+    v: string | number | boolean | null | undefined,
+    defaultValue = '5px'
+) => {
+    if (v === false) {
+        return '0'
+    }
+    if (v === true || v == null) {
+        return defaultValue
+    }
+    return typeof v == 'string' ? v : `${v}px`
+}
 
 export function debounce(func: () => void, timeout = 100) {
     let timer: any
