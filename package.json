@@ -13,6 +13,7 @@
     "start": "vite",
     "build": "tsc && LIBRARY=1 vite build",
     "serve": "vite preview",
+    "prepare": "yarn run build",
     "prepublishOnly": "./bin/pre-publish",
     "test": "jest",
     "test-watch": "jest --watch",
