@@ -10,6 +10,7 @@ export interface CellProps {
     column?: ColumnSpec
     hidden?: boolean
     className?: string
+    role?: React.AriaRole
     Component?: React.FunctionComponent<any> | React.ComponentClass<any>
     render?: CellRenderer<any, any, any>
 }
@@ -22,6 +23,7 @@ export const Cell: React.FC<CellProps> = ({
     render,
     hidden,
     Component,
+    role = 'cell',
     ...props
 }) => {
     if (hidden) return null
@@ -38,7 +40,11 @@ export const Cell: React.FC<CellProps> = ({
     }
 
     return (
-        <div data-column-id={column?.id} className={cx('grid-cell', id, column?.id, className)}>
+        <div
+            role={role}
+            data-column-id={column?.id}
+            className={cx('grid-cell', id, column?.id, className)}
+        >
             {content}
         </div>
     )

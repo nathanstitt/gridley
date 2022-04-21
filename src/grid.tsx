@@ -46,6 +46,16 @@ const styleForLayout = (layout: LayoutSpec) => {
         '[data-column-id]': { display: 'flex', alignItems: 'center' },
         gridTemplateColumns: layout.columns.map(colTmplStyle).join(' '),
     }
+    if (layout.cellPadding !== false) {
+        style['.grid-row, .grid-header'] = {
+            '> *:not(:empty)': {
+                padding: toPX(layout.cellPadding),
+                '&:not(:last-child)': {
+                    paddingRight: 0,
+                },
+            },
+        }
+    }
     if (layout.stripe !== false) {
         style['.grid-row:nth-of-type(2n) > *'] = {
             backgroundColor: typeof layout.stripe === 'string' ? layout.stripe : '#e8e8e8',
@@ -60,14 +70,16 @@ const styleForLayout = (layout: LayoutSpec) => {
 
 const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layoutStyles)
 
-export interface GridleyProps<Data extends any[]> extends GridContextProps {
+export interface GridleyProps<Data extends any[]>
+    extends GridContextProps,
+        React.HTMLAttributes<HTMLDivElement> {
     caption?: React.ReactElement
     className?: string
     data: Data
 }
 
 export function Gridley<Data extends any[]>(props: React.PropsWithChildren<GridleyProps<Data>>) {
-    const { className, data, children, caption } = props
+    const { className, data, children, caption, ...gridProps } = props
 
     const context = useGridContextProvider(props)
 
@@ -79,7 +91,12 @@ export function Gridley<Data extends any[]>(props: React.PropsWithChildren<Gridl
     return (
         <GridContextProvider value={context}>
             {caption && caption}
-            <Grid className={cx('gridley', className, context.state.layoutId)} layoutStyles={style}>
+            <Grid
+                role="table"
+                className={cx('gridley', className, context.state.layoutId)}
+                layoutStyles={style}
+                {...gridProps}
+            >
                 <Header />
                 <Body data={data} />
                 {children}

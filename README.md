@@ -4,7 +4,7 @@ A simple data grid component that responsively adjusts layout based on screen wi
 
 Most tabular grids are "responsive" by switching grid from a table to a "**label:** _value_" layout on mobile screens, or by just allowing rows to wrap when content doesn't fit.
 
-Gridley goes far beyond those techniques.  It can accommodate any number of breakpoints and change column orders, alignment, and even row spanning for each size.
+Gridley goes far beyond those techniques.  It can accommodate any number of breakpoints and change column orders, alignment, and even row spanning for each size.  Cell rendering is specified globally on the grid and then multiple layout's specify how each cell is rendered.  Appropriate ARIA attributes (table, rowheader, row, columnheader, cell) are applied to the elements.
 
 Image a grid that has every row on a single line this on desktop.  And on tablet, each row takes two lines, and ID appears at the end vertically centered between them.  Then on mobile it uses three lines per row, the job & address switch places while spanning the entire width.
 
@@ -13,6 +13,7 @@ Image a grid that has every row on a single line this on desktop.  And on tablet
 
 
 Rendering and layouts are specified in JSX without duplication.  Each cell is rendered the same regardless of layout.
+
 
 For an usable example of the screenshots above, try [the sandbox example](https://codesandbox.io/s/ihjq23?module=/example.tsx) as well as the source in [demo/demo.tsx](demo/demo.tsx)
 
@@ -35,18 +36,20 @@ For an usable example of the screenshots above, try [the sandbox example](https:
  * **stripe** boolean | string defaults to true.  When set, will set the background color of every other row.  If `true`, color will be a light grey.
  * **min** number | string _(required)_ The minimum width of the layout. If a number, refers to pixels, if string can be any valid css dimension such as rem or vw.
  * **max** number | string _(required)_ The maximum width of the layout. If a number, refers to pixels, if string can be any valid css dimension such as rem or vw.
+ * **cellPadding** number | string | boolean _(optional, defaults to 5px)_ Applies the given amount of padding to cells in the grid.  Can be disabled by setting to `false`
  * **style** CSSObject _(optional)_ specific styles to apply to the grid when layout is active.  Useful for setting header border or any other specific styles.  For examples see the [demo source](demo/demo.tsx)
  * **children**  Each child of a layout must be a **Column** that is also included inside of the **Columns** element.
 
 
 #### Column
 
-When used as a child of **Columns** it documents how data is rendered.
+When used as a child of **Columns** it documents how data is rendered.  The parent element inside `header` and `body` may be a `Cell`, or any custom element.  If a custom element is used, it will be passed a string `id` prop.  That id must be rendered the the DOM as `data-cell-id` in order for elements to be positioned properly.
 
  * **id** a unique identifier for each column
  * **dataPath** the path to the value for each column.  Uses [lodash get](https://lodash.com/docs/4.17.15#get) internally.  If not provided, the column id is used.
- * **header** React.ReactElement - element to be rendered for the column in the header
- * **body** React.ReactElement - element to be rendered for the column for each row in the body
+ * **header** React.ReactElement - element to be rendered for the column in the header.
+ * **body** React.ReactElement - element to be rendered for the column for each row in the body.
+ 
 
 When placed inside a **Layout**, it documents how the column is placed in the grid.  Columns will appear in the order they are placed under the Layout.
 
@@ -58,6 +61,7 @@ When placed inside a **Layout**, it documents how the column is placed in the gr
  * **wrap** number | boolean _(optional)_ If the cell is wrapped onto a new line, and if so how many pixels tall the rows are.  When using a sticky header, wrapped columns need to know their row height to position them correctly.
  * **justify** any valid css justify-content value.  Controls the alignment of items inside the column.
  * **width** number | string _(optional)_ A fixed with for the column
+
 
 ## Gridley Hooks
 

@@ -20,8 +20,8 @@ const Grid = styled(Gridley)({
 })
 
 // A custom component that renders the first name along with a custom data attribute
-const FirstName: React.FC<{ value?: string }> = ({ value: name }) => (
-    <span data-column-id="firstName" data-testid={name}>
+const FirstName: React.FC<{ role: React.AriaRole, value?: string }> = ({ role, value: name }) => (
+    <span role={role} data-column-id="firstName" data-testid={name}>
         {name}
     </span>
 )

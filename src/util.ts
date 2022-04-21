@@ -2,10 +2,7 @@ import * as React from 'react'
 
 import { gridContext, LayoutSpec, GridContext } from './types'
 
-export const defaultToPx = (
-    v: string | number | boolean | null | undefined,
-    defaultValue = '5px'
-) => {
+export const toPX = (v: string | number | boolean | null | undefined, defaultValue = '5px') => {
     if (v === false) {
         return '0'
     }
@@ -34,7 +31,7 @@ export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
         return Object.keys(layouts).find((layoutId) => {
             const { min, max } = layouts[layoutId]! // eslint-disable-line
             const query = window.matchMedia?.(
-                `(min-width: ${defaultToPx(min)}) and (max-width: ${defaultToPx(max)})`
+                `(min-width: ${toPX(min)}) and (max-width: ${toPX(max)})`
             )
             return query?.matches
         })

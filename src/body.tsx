@@ -36,7 +36,12 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
             }
 
             return (
-                <RowDiv key={i} {...rowAttrs} className={cx('grid-row', rowAttrs.className)}>
+                <RowDiv
+                    role="row"
+                    key={i}
+                    {...rowAttrs}
+                    className={cx('grid-row', rowAttrs.className)}
+                >
                     {columns.map((col) => {
                         const r = renderers[col.id]
                         invariant(r, `Missing renderer for column ${col.id}`)
@@ -47,6 +52,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                             key: col.id,
                             data,
                             rowData,
+                            role: 'cell',
                             layout,
                             column: col,
                             value: get(rowData, dataPath || col.id),

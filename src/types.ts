@@ -7,6 +7,7 @@ export interface LayoutSpec {
     stripe?: boolean | 'string'
     min: string | number
     max: string | number
+    cellPadding?: boolean | number | string
     stickyHeaderTop?: boolean | number | string
     columns: ColumnSpec[]
 }

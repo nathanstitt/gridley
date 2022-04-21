@@ -34,7 +34,12 @@ export const Header = () => {
             const header = renderers[col.id]?.header
             invariant(header, `Missing Renderer for column ${col.id}`)
             return header ? (
-                React.cloneElement(header, { key: col.id, column: col })
+                React.cloneElement(header, {
+                    role: 'columnheader',
+                    key: col.id,
+                    id: col.id,
+                    column: col,
+                })
             ) : (
                 <MissingHeader id={col.id} key={col.id} />
             )
@@ -52,7 +57,7 @@ export const Header = () => {
     }
 
     return (
-        <HeaderDiv sticky={sticky} className="grid-header">
+        <HeaderDiv role="rowheader" sticky={sticky} className="grid-header">
             {columns}
         </HeaderDiv>
     )
