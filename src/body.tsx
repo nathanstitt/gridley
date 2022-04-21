@@ -49,6 +49,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                         if (!cell) return <span>missing column {col.id}</span>
 
                         return React.cloneElement(cell, {
+                            id: col.id,
                             key: col.id,
                             data,
                             rowData,
