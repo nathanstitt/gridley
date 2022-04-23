@@ -13,7 +13,7 @@
     "start": "vite",
     "build": "./bin/build",
     "serve": "vite preview",
-    "prepare": "yarn run build",
+    "prepare": "./bin/build",
     "prepublishOnly": "./bin/pre-publish",
     "test": "jest",
     "test-watch": "jest --watch",
