@@ -11,7 +11,7 @@
   "version": "0.1.3",
   "scripts": {
     "start": "vite",
-    "build": "tsc && LIBRARY=1 vite build",
+    "build": "./bin/build",
     "serve": "vite preview",
     "prepare": "yarn run build",
     "prepublishOnly": "./bin/pre-publish",
