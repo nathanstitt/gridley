@@ -82,54 +82,41 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 id="mobile"
                 min="0"
                 max="500"
+                stickyHeader={{ top: '1px', rowHeight: '30px', background: 'white' }}
                 style={{
                     '.grid-cell.id': { color: 'darkorange' },
-                    '.grid-header': {
-                        '.address, .id': {
-                            borderBottom: '1px solid black',
-                        },
-                    },
                 }}
             >
                 <Column id="id" min={20} max={70} rowSpan={3} justify="center" />
                 <Column id="firstName" />
                 <Column id="lastName" />
-                <Column id="job" colSpan={2} wrap />
-                <Column id="address" colSpan={2} wrap justify="end" />
+                <Column id="job" colSpan={2} row={2} />
+                <Column id="address" colSpan={2} row={3} justify="end" />
             </Layout>
 
             <Layout
                 stripe
-                stickyHeaderTop="30px"
+                stickyHeader={{ top: '30px', rowHeight: '30px', background: 'white' }}
                 id="tablet"
                 min={501}
                 max={800}
                 style={{
                     '.grid-cell.id': { color: 'red' },
-                    '.grid-header > *': { minHeight: '25px' },
-                    '.grid-header': {
-                        '.job, .address, .id': {
-                            borderBottom: '1px solid black',
-                        },
-                    },
+
                 }}
             >
                 <Column id="firstName" />
                 <Column id="lastName" />
                 <Column id="id" min={20} max={80} rowSpan={2} justify="end" />
-                <Column id="address" wrap={25} />
-                <Column id="job" wrap="25px" />
+                <Column id="address" row={2} />
+                <Column id="job" row={2} />
             </Layout>
 
             <Layout
                 id="desktop"
                 min={801}
                 max="100vw"
-                style={{
-                    '.grid-header > *': {
-                        borderBottom: '1px solid black',
-                    },
-                }}
+                stickyHeader={{ top: '30px', rowHeight: '30px', background: 'white' }}
             >
                 <Column id="id" max={120} />
                 <Column id="firstName" />
@@ -137,7 +124,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column id="job" />
                 <Column id="address" />
             </Layout>
-        </Grid>
+        </Grid >
     )
 }
 

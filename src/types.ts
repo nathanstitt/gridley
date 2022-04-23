@@ -1,14 +1,37 @@
 import * as React from 'react'
 import type { CSSObject } from '@emotion/react'
 
+export interface StickySpec {
+    top: string | number
+    rowHeight: string | number
+    background: string
+}
+
+export interface HeaderSeparator {
+    width: string | number
+    style:
+        | 'hidden'
+        | 'dotted'
+        | 'dashed'
+        | 'solid'
+        | 'double'
+        | 'groove'
+        | 'ridge'
+        | 'inset'
+        | 'outset'
+    color: string
+}
+
 export interface LayoutSpec {
     id: string
+    lastRowOffset: number
+    headerSeparator: HeaderSeparator
     style?: CSSObject
     stripe?: boolean | 'string'
     min: string | number
     max: string | number
     cellPadding?: boolean | number | string
-    stickyHeaderTop?: boolean | number | string
+    stickyHeader?: StickySpec
     columns: ColumnSpec[]
 }
 
@@ -27,8 +50,8 @@ export interface LayoutColumnSpec {
     max?: string | number
     width?: string | number
     colSpan?: number
-    wrap?: boolean | number | string
-    rowSpan?: number
+    row: number
+    rowSpan: number
     justify?: keyof typeof JUSTIFY_CONTENT
 }
 
@@ -44,9 +67,7 @@ export interface ColumnSpec extends LayoutColumnSpec, RendererSpec {}
 export interface GridContextProps extends Record<string, any> {
     defaultLayout?: string
     forceLayout?: string
-    rowAttributes?:
-        | React.HTMLAttributes<HTMLDivElement>
-        | ((rowData: any, layout: LayoutSpec) => React.HTMLAttributes<HTMLDivElement>)
+    rowAttributes?: any
 }
 export type Layouts = Record<string, LayoutSpec>
 export type Renderers = Record<string, RendererSpec>

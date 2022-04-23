@@ -12,7 +12,7 @@ import type { GridContextProps, LayoutSpec } from './types'
 import { toPX } from './util'
 
 const colTmplStyle = (c: ColumnSpec) => {
-    let rule = c.wrap ? '' : 'auto'
+    let rule = c.row > 1 ? '' : 'auto'
     if (c.width) {
         rule = toPX(c.width)
     } else if (c.min || c.max) {
@@ -25,18 +25,19 @@ const colTmplStyle = (c: ColumnSpec) => {
     return rule
 }
 
-const colStyle = (c: ColumnSpec) => {
+const colStyle = (layout: LayoutSpec, c: ColumnSpec) => {
     let rule: CSSObject = {}
     if (c.colSpan) {
         rule = { ...rule, gridColumn: `auto /span ${c.colSpan}` }
     }
-    if (c.rowSpan) {
-        rule = { ...rule, gridRow: `auto /span ${c.rowSpan}`, color: 'blue' }
+    if (c.rowSpan > 1) {
+        rule = { ...rule, gridRow: `auto /span ${c.rowSpan}` }
     }
     if (c.justify) {
         rule = { ...rule, justifyContent: JUSTIFY_CONTENT[c.justify] }
     }
-    rule['--row-offset'] = toPX(c.wrap || 0)
+    rule['--is-last-row'] = layout.lastRowOffset == (c.row + (c.rowSpan - 1)) ? 1 : 0
+    rule['--row-offset'] = c.row
     return rule
 }
 
@@ -56,13 +57,14 @@ const styleForLayout = (layout: LayoutSpec) => {
             },
         }
     }
+    style['--last-row-offset'] = layout.lastRowOffset
     if (layout.stripe !== false) {
         style['.grid-row:nth-of-type(2n) > *'] = {
             backgroundColor: typeof layout.stripe === 'string' ? layout.stripe : '#e8e8e8',
         }
     }
     const columnStyles = layout.columns.reduce(
-        (css, c) => ({ ...css, [`[data-column-id="${c.id}"]`]: colStyle(c) }),
+        (css, c) => ({ ...css, [`[data-column-id="${c.id}"]`]: colStyle(layout, c) }),
         {}
     )
     return deepmerge.all([style, columnStyles, layout.style || {}]) as CSSObject
@@ -72,7 +74,7 @@ const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layou
 
 export interface GridleyProps<Data extends any[]>
     extends GridContextProps,
-        React.HTMLAttributes<HTMLDivElement> {
+    React.HTMLAttributes<HTMLDivElement> {
     caption?: React.ReactElement
     className?: string
     data: Data

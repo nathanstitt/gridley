@@ -1,13 +1,29 @@
 import * as React from 'react'
 
-import { useGridContextDispatch } from './util'
-import { ColumnSpec, LayoutSpec } from './types'
 
-interface LayoutProps extends Omit<LayoutSpec, 'columns'> {
+import { useGridContextDispatch } from './util'
+import { ColumnSpec, LayoutSpec, HeaderSeparator } from './types'
+
+interface LayoutProps extends Omit<LayoutSpec, 'columns' | 'lastRowOffset' | 'headerSeparatorColor'> {
     children: React.ReactNode[]
+    headerSeparator?: HeaderSeparator
 }
 
-export function Layout({ children, ...layout }: LayoutProps) {
+const LAYOUT_DEFAULTS = {
+    lastRowOffset: 1,
+    headerSeparator: {
+        width: '1px',
+        color: 'black',
+        style: 'solid',
+    } as HeaderSeparator
+}
+
+const COLUMN_DEFAULTS = {
+    rowSpan: 1,
+    row: 1,
+}
+
+export function Layout({ children, ...layoutProps }: LayoutProps): null {
     const dispatch = useGridContextDispatch()
 
     React.useEffect(() => {
@@ -16,13 +32,18 @@ export function Layout({ children, ...layout }: LayoutProps) {
         const columns =
             React.Children.map(children, (child) => {
                 if (React.isValidElement(child)) {
-                    return child.props as any as ColumnSpec
+                    return { ...COLUMN_DEFAULTS, ...child.props } as ColumnSpec
                 }
                 return false
             })?.filter(Boolean) || []
 
-        dispatch({ type: 'ADD_LAYOUT', layout: { ...layout, columns } })
-    }, [dispatch, children, layout])
+        const layout = { ...LAYOUT_DEFAULTS, ...layoutProps, columns } as LayoutSpec
+        layout.lastRowOffset = layout.columns.reduce(
+            (max, c) => (c.row > max ? c.row : max),
+            0
+        )
+        dispatch({ type: 'ADD_LAYOUT', layout })
+    }, [dispatch, children, layoutProps])
 
     return null
 }
