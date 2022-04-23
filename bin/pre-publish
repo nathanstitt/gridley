@@ -4,6 +4,6 @@ sandbox=$(codesandboxer --name "Gridley demo" demo/demo.tsx | sed -ne 's|.*\/\(.
 
 perl -p -i -e "s|/(\w+)\?module|/$sandbox\?module|" README.md
 
-if [[ `git status --porcelain README.md` ]]; then
+if [[ ! -z "$(git status --porcelain README.md)" ]]; then
     git commit -m 'updated demo sandbox' -m README.md
 fi
