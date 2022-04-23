@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { StrictMode } from 'react'
-import Demo from '../../demo/demo'
+import Demo from '../demo/demo'
 
 describe('grid test', () => {
     it('renders', () => {

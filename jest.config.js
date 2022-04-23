@@ -2,9 +2,9 @@ module.exports = {
     preset: 'ts-jest',
     testTimeout: 30000,
     testEnvironment: 'jsdom',
-    testRegex: 'src/.*spec.[jt]sx?$',
+    testRegex: 'specs/.*spec.[jt]sx?$',
     transform: {
-        'src/.*.[jt]sx?$': '<rootDir>/test/__fileTransformer__.js',
+        'specs/.*.[jt]sx?$': '<rootDir>/specs/__fileTransformer__.js',
     },
     maxWorkers: 4,
     globals: {
@@ -20,5 +20,5 @@ module.exports = {
             '<rootDir>/src/_mocks/fileMock.js',
         '\\.(css|less)$': '<rootDir>/src/_mocks/styleMock.js',
     },
-    setupFilesAfterEnv: ['./src/_tests/__setup__.ts'],
+    setupFilesAfterEnv: ['./specs/__setup__.ts'],
 }
