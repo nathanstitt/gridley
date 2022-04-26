@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useGridContextDispatch } from './util'
 import { ColumnSpec, LayoutSpec, HeaderSeparator } from './types'
 
-interface LayoutProps extends Omit<LayoutSpec, 'columns' | 'lastRowOffset' | 'headerSeparatorColor'> {
+interface LayoutProps extends Omit<LayoutSpec, 'columns' | 'lastRowOffset' | 'headerSeparator'> {
     children: React.ReactNode[]
     headerSeparator?: HeaderSeparator
 }

@@ -70,7 +70,6 @@
   "dependencies": {
     "deepmerge": ">=4.0.0",
     "immer": "*",
-    "lodash.get": "*",
-    "tiny-invariant": "*"
+    "lodash.get": "*"
   }
 }

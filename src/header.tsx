@@ -2,7 +2,6 @@ import * as React from 'react'
 import type { CSSObject } from '@emotion/react'
 import type { LayoutSpec, StickySpec } from './types'
 import styled from '@emotion/styled'
-import invariant from 'tiny-invariant'
 import { useGridContextState, toPX } from './util'
 
 function stickyStyle(sticky?: StickySpec): CSSObject {
@@ -23,7 +22,7 @@ const HeaderDiv = styled.div(({
     display: 'contents',
     '> *': {
         ...stickyStyle(sticky),
-        zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 1)',
+        zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 2)',
         borderBottomColor: layout?.headerSeparator.color,
         borderBottomStyle: layout?.headerSeparator.style,
         borderBottomWidth: `calc(${toPX(layout?.headerSeparator.width)} * var(--is-last-row))`
@@ -42,7 +41,8 @@ export const Header = () => {
         const { renderers } = ctx
         return (ctx.currentLayout?.columns || []).map((col) => {
             const header = renderers[col.id]?.header
-            invariant(header, `Missing Renderer for column ${col.id}`)
+            if (!header) throw new Error(`Missing Renderer for column ${col.id}`)
+
             return header ? (
                 React.cloneElement(header, {
                     role: 'columnheader',

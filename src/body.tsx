@@ -2,7 +2,6 @@ import * as React from 'react'
 import { cx } from '@emotion/css'
 import styled from '@emotion/styled'
 import get from 'lodash.get'
-import invariant from 'tiny-invariant'
 
 import { useGridContextState } from './util'
 
@@ -44,7 +43,8 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                 >
                     {columns.map((col) => {
                         const r = renderers[col.id]
-                        invariant(r, `Missing renderer for column ${col.id}`)
+                        if (!r) throw new Error(`Missing renderer for column ${col.id}`)
+
                         const { body: cell, dataPath } = r
                         if (!cell) return <span>missing column {col.id}</span>
 

@@ -12,13 +12,16 @@ import type { GridContextProps, LayoutSpec } from './types'
 import { toPX } from './util'
 
 const colTmplStyle = (c: ColumnSpec) => {
-    let rule = c.row > 1 ? '' : 'auto'
+    if (c.row !== 1) return ''
+
+    let rule = ''
     if (c.width) {
         rule = toPX(c.width)
     } else if (c.min || c.max) {
         rule = `minmax(${toPX(c.min || 'auto')}, ${toPX(c.max || 'auto')})`
+    } else {
+        rule = 'auto'
     }
-
     if (c.colSpan) {
         rule = Array(c.colSpan).fill(rule).join(' ')
     }
