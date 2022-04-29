@@ -1,11 +1,10 @@
 import * as React from 'react'
 
-
 import { useGridContextDispatch } from './util'
 import { ColumnSpec, LayoutSpec, HeaderSeparator } from './types'
 
 interface LayoutProps extends Omit<LayoutSpec, 'columns' | 'lastRowOffset' | 'headerSeparator'> {
-    children: React.ReactNode[]
+    children: React.ReactNode | React.ReactNode[]
     headerSeparator?: HeaderSeparator
 }
 
@@ -15,7 +14,7 @@ const LAYOUT_DEFAULTS = {
         width: '1px',
         color: 'black',
         style: 'solid',
-    } as HeaderSeparator
+    } as HeaderSeparator,
 }
 
 const COLUMN_DEFAULTS = {
@@ -38,10 +37,7 @@ export function Layout({ children, ...layoutProps }: LayoutProps): null {
             })?.filter(Boolean) || []
 
         const layout = { ...LAYOUT_DEFAULTS, ...layoutProps, columns } as LayoutSpec
-        layout.lastRowOffset = layout.columns.reduce(
-            (max, c) => (c.row > max ? c.row : max),
-            0
-        )
+        layout.lastRowOffset = layout.columns.reduce((max, c) => (c.row > max ? c.row : max), 0)
         dispatch({ type: 'ADD_LAYOUT', layout })
     }, [dispatch, children, layoutProps])
 

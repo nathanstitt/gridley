@@ -6,6 +6,7 @@ import { useIsLayoutActive } from './util'
 export interface CaptionProps {
     className?: string
     layout?: string
+    children: React.ReactNode | React.ReactNode[]
 }
 
 export const Caption: React.FC<CaptionProps> = ({ className, children, layout }) => {

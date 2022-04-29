@@ -20,7 +20,11 @@ const Grid = styled(Gridley)({
 })
 
 // A custom component that renders the first name along with a custom data attribute
-const FirstName: React.FC<{ role?: React.AriaRole, id?: string, value?: string }> = ({ id, role, value: name }) => (
+const FirstName: React.FC<{ role?: React.AriaRole; id?: string; value?: string }> = ({
+    id,
+    role,
+    value: name,
+}) => (
     <span role={role} data-column-id={id} data-testid={name}>
         {name}
     </span>
@@ -102,7 +106,6 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 max={800}
                 style={{
                     '.grid-cell.id': { color: 'red' },
-
                 }}
             >
                 <Column id="firstName" />
@@ -124,7 +127,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column id="job" />
                 <Column id="address" />
             </Layout>
-        </Grid >
+        </Grid>
     )
 }
 

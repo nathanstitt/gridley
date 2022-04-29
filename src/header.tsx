@@ -1,33 +1,35 @@
 import * as React from 'react'
 import type { CSSObject } from '@emotion/react'
-import type { LayoutSpec, StickySpec } from './types'
 import styled from '@emotion/styled'
+
+import type { LayoutSpec, StickySpec } from './types'
 import { useGridContextState, toPX } from './util'
 
 function stickyStyle(sticky?: StickySpec): CSSObject {
-    return sticky ? {
-        position: 'sticky',
-        boxSizing: 'border-box',
-        background: sticky.background,
-        top: `calc(((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + ${toPX(sticky.top)})`,
-        minHeight: toPX(sticky.rowHeight),
-    } : {}
+    return sticky
+        ? {
+              position: 'sticky',
+              boxSizing: 'border-box',
+              background: sticky.background,
+              top: `calc(((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + ${toPX(
+                  sticky.top
+              )})`,
+              minHeight: toPX(sticky.rowHeight),
+          }
+        : {}
 }
-const HeaderDiv = styled.div(({
-    sticky, layout,
-}: {
-    sticky?: StickySpec
-    layout?: LayoutSpec
-}) => ({
-    display: 'contents',
-    '> *': {
-        ...stickyStyle(sticky),
-        zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 2)',
-        borderBottomColor: layout?.headerSeparator.color,
-        borderBottomStyle: layout?.headerSeparator.style,
-        borderBottomWidth: `calc(${toPX(layout?.headerSeparator.width)} * var(--is-last-row))`
-    }
-}))
+const HeaderDiv = styled.div(
+    ({ sticky, layout }: { sticky?: StickySpec; layout?: LayoutSpec }) => ({
+        display: 'contents',
+        '> *': {
+            ...stickyStyle(sticky),
+            zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 2)',
+            borderBottomColor: layout?.headerSeparator.color,
+            borderBottomStyle: layout?.headerSeparator.style,
+            borderBottomWidth: `calc(${toPX(layout?.headerSeparator.width)} * var(--is-last-row))`,
+        },
+    })
+)
 
 const MissingHeader: React.FC<{ id: string }> = ({ id }) => (
     <span>Missing Renderer for column {id}</span>
@@ -57,7 +59,12 @@ export const Header = () => {
     }, [ctx])
 
     return (
-        <HeaderDiv role="rowheader" layout={ctx?.currentLayout} sticky={ctx?.currentLayout?.stickyHeader} className="grid-header">
+        <HeaderDiv
+            role="rowheader"
+            layout={ctx?.currentLayout}
+            sticky={ctx?.currentLayout?.stickyHeader}
+            className="grid-header"
+        >
             {columns}
         </HeaderDiv>
     )

@@ -38,8 +38,8 @@ const colStyle = (layout: LayoutSpec, c: ColumnSpec) => {
     }
     if (c.justify) {
         rule = { ...rule, justifyContent: JUSTIFY_CONTENT[c.justify] }
-    }
-    rule['--is-last-row'] = layout.lastRowOffset == (c.row + (c.rowSpan - 1)) ? 1 : 0
+    } // eslint-disable-next-line eqeqeq
+    rule['--is-last-row'] = layout.lastRowOffset == c.row + (c.rowSpan - 1) ? 1 : 0
     rule['--row-offset'] = c.row
     return rule
 }
@@ -77,7 +77,7 @@ const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layou
 
 export interface GridleyProps<Data extends any[]>
     extends GridContextProps,
-    React.HTMLAttributes<HTMLDivElement> {
+        React.HTMLAttributes<HTMLDivElement> {
     caption?: React.ReactElement
     className?: string
     data: Data

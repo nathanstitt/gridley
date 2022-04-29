@@ -7,6 +7,7 @@ type CellRenderer<D, R, A> = (data: D, row: R, allData: A, props: any) => React.
 
 export interface CellProps {
     id?: string
+    children: React.ReactNode | React.ReactNode[]
     column?: ColumnSpec
     hidden?: boolean
     className?: string
@@ -40,11 +41,7 @@ export const Cell: React.FC<CellProps> = ({
     }
 
     return (
-        <div
-            role={role}
-            data-column-id={column?.id}
-            className={cx('grid-cell', id, column?.id, className)}
-        >
+        <div role={role} data-column-id={column?.id} className={cx('grid-cell', id, className)}>
             {content}
         </div>
     )
