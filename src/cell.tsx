@@ -7,7 +7,7 @@ type CellRenderer<D, R, A> = (data: D, row: R, allData: A, props: any) => React.
 
 export interface CellProps {
     id?: string
-    children: React.ReactNode | React.ReactNode[]
+    children?: React.ReactNode | React.ReactNode[]
     column?: ColumnSpec
     hidden?: boolean
     className?: string
