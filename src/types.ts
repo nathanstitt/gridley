@@ -36,8 +36,8 @@ export interface LayoutSpec {
 }
 
 export const JUSTIFY_CONTENT = {
-    around: 'around',
-    between: 'between',
+    around: 'space-around',
+    between: 'space-between',
     center: 'center',
     end: 'flex-end',
     start: 'flex-start',
