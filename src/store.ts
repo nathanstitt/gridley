@@ -13,17 +13,18 @@ import {
 } from './types'
 import { useCurrentLayoutMatch } from './util'
 
+const arrayMerge = (_: any[], sourceArray: any[], __: any) => {
+    return sourceArray
+}
+
 const gridContextReducer = produce(
     (draft: Draft<GridContextStoreState>, action: GridContextAction) => {
         switch (action.type) {
             case 'ADD_LAYOUT': {
                 const { layout } = action
-                const existing = draft.layouts[layout.id]
-                if (existing) {
-                    deepmerge(existing, layout)
-                } else {
-                    draft.layouts[layout.id] = layout
-                }
+                draft.layouts[layout.id] = deepmerge(draft.layouts[layout.id] || {}, layout, {
+                    arrayMerge,
+                })
                 return
             }
             case 'SET_RENDERERS': {

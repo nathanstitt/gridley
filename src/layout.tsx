@@ -22,15 +22,15 @@ const COLUMN_DEFAULTS = {
     row: 1,
 }
 
-export function Layout({ children, ...layoutProps }: LayoutProps): null {
+export function Layout(props: LayoutProps): null {
     const dispatch = useGridContextDispatch()
-
     React.useEffect(() => {
         if (!dispatch) return
+        const { children, ...layoutProps } = props
 
         const columns =
             React.Children.map(children, (child) => {
-                if (React.isValidElement(child)) {
+                if (child && React.isValidElement(child)) {
                     return { ...COLUMN_DEFAULTS, ...child.props } as ColumnSpec
                 }
                 return false
@@ -39,7 +39,7 @@ export function Layout({ children, ...layoutProps }: LayoutProps): null {
         const layout = { ...LAYOUT_DEFAULTS, ...layoutProps, columns } as LayoutSpec
         layout.lastRowOffset = layout.columns.reduce((max, c) => (c.row > max ? c.row : max), 0)
         dispatch({ type: 'ADD_LAYOUT', layout })
-    }, [dispatch, children, layoutProps])
+    }, [dispatch, props])
 
     return null
 }

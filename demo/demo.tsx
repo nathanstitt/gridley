@@ -57,13 +57,18 @@ interface DemoProps extends Omit<GridleyProps<Person[]>, 'data'> {
 
 const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
     const [data, setData] = React.useState(initialData || makeData())
+    const [showJob, setShowJob] = React.useState(true)
+    const onUpdate = React.useCallback(() => {
+        setShowJob(false)
+        setData(makeData())
+    }, [setShowJob, setData])
 
     return (
         <Grid
             data={data}
             rowAttributes={(r: Person) => ({ 'data-row-id': r.id })}
             defaultLayout="mobile"
-            caption={<Caption onUpdate={() => setData(makeData())} />}
+            caption={<Caption onUpdate={onUpdate} />}
             {...props}
         >
             <Columns>
@@ -124,7 +129,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column id="id" max={120} />
                 <Column id="firstName" />
                 <Column id="lastName" />
-                <Column id="job" />
+                {showJob && <Column id="job" />}
                 <Column id="address" />
             </Layout>
         </Grid>
