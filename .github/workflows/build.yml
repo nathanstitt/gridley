@@ -8,19 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📘 Checkout files
-        uses: actions/checkout@v2.1.1
-      - name: 🟢 Setup Node.js environment
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org
-      - name: 📦 Install packages
-        run: npm install
+        uses: actions/checkout@v3
+      - uses: bahmutov/npm-install@v1
       - name: 🥽 Run tsc
-        run: npm run typecheck
+        run: yarn run typecheck
       - name: 🧹 Run eslint
-        run: npm run lint
+        run: yarn run lint
       - name: ⚠️ Run tests
-        run: npm run test
+        run: yarn run test
       - name: 🏠 Build files
-        run: npm run build
+        run: yarn run build
