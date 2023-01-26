@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { cx } from '@emotion/css'
-import styled from '@emotion/styled'
 import get from 'lodash.get'
 
 import { useGridContextState } from './util'
-
 
 interface BodyProps<Data extends any[]> {
     data: Data
