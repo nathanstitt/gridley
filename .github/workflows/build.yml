@@ -4,7 +4,7 @@ on: push
 
 jobs:
   release:
-    name: build
+    name: build-n-test
     runs-on: ubuntu-latest
     steps:
       - name: 📘 Checkout files
