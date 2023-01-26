@@ -43,7 +43,7 @@ export const Header = () => {
         const { renderers } = ctx
         return (ctx.currentLayout?.columns || []).map((col) => {
             const header = renderers[col.id]?.header
-            if (!header) throw new Error(`Missing Renderer for column ${col.id}`)
+            if (!header) throw new Error(`Missing Renderer for header column ${col.id}`)
 
             return header ? (
                 React.cloneElement(header, {

@@ -1,11 +1,13 @@
 import * as React from 'react'
 import type { CSSObject } from '@emotion/react'
 
-export interface StickySpec {
+export interface StickyDefinition {
     top: string | number
     rowHeight: string | number
     background: string
 }
+
+export type StickySpec = false | StickyDefinition
 
 export interface HeaderSeparator {
     width: string | number
