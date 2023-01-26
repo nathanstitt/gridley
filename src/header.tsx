@@ -20,7 +20,6 @@ function stickyStyle(sticky?: StickySpec): CSSObject {
 }
 const HeaderDiv = styled.div(
     ({ sticky, layout }: { sticky?: StickySpec; layout?: LayoutSpec }) => ({
-        display: 'contents',
         '> *': {
             ...stickyStyle(sticky),
             zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 2)',

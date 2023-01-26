@@ -5,13 +5,6 @@ import get from 'lodash.get'
 
 import { useGridContextState } from './util'
 
-const BodyDiv = styled.div({
-    display: 'contents',
-})
-
-const RowDiv = styled.div({
-    display: 'contents',
-})
 
 interface BodyProps<Data extends any[]> {
     data: Data
@@ -35,7 +28,7 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
             }
 
             return (
-                <RowDiv
+                <div
                     role="row"
                     key={i}
                     {...rowAttrs}
@@ -59,10 +52,10 @@ export function Body<Data extends any[]>({ data }: BodyProps<Data>) {
                             value: get(rowData, dataPath || col.id),
                         })
                     })}
-                </RowDiv>
+                </div>
             )
         })
     }, [ctx, data])
 
-    return <BodyDiv className="grid-body">{rows}</BodyDiv>
+    return <div className="grid-body">{rows}</div>
 }

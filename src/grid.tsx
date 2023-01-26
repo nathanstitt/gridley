@@ -47,6 +47,9 @@ const colStyle = (layout: LayoutSpec, c: ColumnSpec) => {
 const styleForLayout = (layout: LayoutSpec) => {
     const style: CSSObject = {
         display: 'grid',
+        '.grid-header, .grid-body, .grid-row': {
+            display: 'contents',
+        },
         '[data-column-id]': { display: 'flex', alignItems: 'center' },
         gridTemplateColumns: layout.columns.map(colTmplStyle).join(' '),
     }
