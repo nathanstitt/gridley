@@ -1,15 +1,13 @@
 import * as React from 'react'
 import { expect, describe, it, beforeEach } from 'vitest'
 import matchers from '@testing-library/jest-dom/matchers'
-expect.extend(matchers);
 import { render, screen, cleanup } from '@testing-library/react'
-
 import { StrictMode } from 'react'
 
 import Demo from '../demo/demo'
+expect.extend(matchers)
 
 describe('grid test', () => {
-
     beforeEach(cleanup)
 
     it('renders', () => {
