@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { cx, css } from '@emotion/css'
-
+import { cx } from '@emotion/css'
+import { css }  from '@emotion/react'
 import type { LayoutSpec, StickySpec } from './types'
 import { useGridContextState, toPX } from './util'
 

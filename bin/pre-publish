@@ -2,6 +2,8 @@
 
 sandbox=$(codesandboxer --name "Gridley demo" demo/demo.tsx | sed -ne 's|.*\/\(.*\)\?module.*|\1|p')
 
+echo Sandbox $sandbox
+
 perl -p -i -e "s|/(\w+)\?module|/$sandbox\?module|" README.md
 
 if [[ ! -z "$(git status --porcelain README.md)" ]]; then

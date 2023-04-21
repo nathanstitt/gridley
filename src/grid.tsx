@@ -1,7 +1,7 @@
 import * as React from 'react'
 import type { CSSObject } from '@emotion/css'
-import { cx, css } from '@emotion/css'
-
+import { cx } from '@emotion/css'
+import { css }  from '@emotion/react'
 import { useGridContextProvider } from './store'
 import { Body } from './body'
 import { Header } from './header'
