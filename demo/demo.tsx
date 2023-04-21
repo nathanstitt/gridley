@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import styled from '@emotion/styled'
 import {
     Gridley,
     Cell,
@@ -9,7 +9,6 @@ import {
     useCurrentLayout,
     GridleyProps,
 } from '../src/index'
-
 import { Person, makeData } from './data'
 
 // an example of how to add styles to the Grid

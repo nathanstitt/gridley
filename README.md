@@ -12,7 +12,7 @@ Image a grid that has every row on a single line this on desktop. And on tablet,
 
 Rendering and layouts are specified in JSX without duplication. Each cell is rendered the same regardless of layout.
 
-For an usable example of the screenshots above, try [the sandbox example](https://codesandbox.io/s/gridley-demo-4kn627) as well as the source in [demo/demo.tsx](demo/demo.tsx)
+For an usable example of the screenshots above, try [the sandbox example](https://codesandbox.io/s/gridley-demo-4kn627?file=/example.tsx) as well as the source in [demo/demo.tsx](demo/demo.tsx)
 
 ## Gridley Components
 
