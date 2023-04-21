@@ -1,8 +1,6 @@
 import * as React from 'react'
-import type { CSSObject } from '@emotion/react'
-import { cx } from '@emotion/css'
-import styled from '@emotion/styled'
-import deepmerge from 'deepmerge'
+import type { CSSObject } from '@emotion/css'
+import { cx, css } from '@emotion/css'
 
 import { useGridContextProvider } from './store'
 import { Body } from './body'
@@ -28,55 +26,58 @@ const colTmplStyle = (c: ColumnSpec) => {
     return rule
 }
 
-const colStyle = (layout: LayoutSpec, c: ColumnSpec) => {
-    let rule: CSSObject = {}
-    if (c.colSpan) {
-        rule = { ...rule, gridColumn: `auto /span ${c.colSpan}` }
-    }
-    if (c.rowSpan > 1) {
-        rule = { ...rule, gridRow: `auto /span ${c.rowSpan}` }
-    }
-    if (c.justify) {
-        rule = { ...rule, justifyContent: JUSTIFY_CONTENT[c.justify] }
-    } // eslint-disable-next-line eqeqeq
-    rule['--is-last-row'] = layout.lastRowOffset == c.row + (c.rowSpan - 1) ? 1 : 0
-    rule['--row-offset'] = c.row
-    return rule
+export const Selectors = {
+    wrappers: '> .grid-header, > .grid-body, .grid-body > .grid-row',
+    nonEmpty: '*:not(:empty)',
+    header: '.grid-header',
+    body: '.grid-body',
+    row: '.grid-row',
 }
 
 const styleForLayout = (layout: LayoutSpec) => {
-    const style: CSSObject = {
+    const pad = toPX(layout.cellPadding)
+    const columnStyles: Record<string, CSSObject> = {}
+    for (const c of layout.columns) {
+        columnStyles[`> [data-column-id="${c.id}"]`] = {
+            '--row-offset': c.row,
+            '--is-last-row': layout.lastRowOffset === c.row + (c.rowSpan - 1) ? 1 : 0,
+            gridColumn: `auto /span ${c.colSpan || 1}`,
+            gridRow: `auto /span ${c.rowSpan || 1}`,
+            justifyContent: JUSTIFY_CONTENT[c.justify || 'start'],
+        }
+    }
+    const styles: CSSObject = {
         display: 'grid',
-        '.grid-header, .grid-body, .grid-row': {
-            display: 'contents',
-        },
-        '[data-column-id]': { display: 'flex', alignItems: 'center' },
         gridTemplateColumns: layout.columns.map(colTmplStyle).join(' '),
-    }
-    if (layout.cellPadding !== false) {
-        style['.grid-row, .grid-header'] = {
-            '> *:not(:empty)': {
-                padding: toPX(layout.cellPadding),
-                '&:not(:last-child)': {
-                    paddingRight: 0,
-                },
+        '--last-row-offset': layout.lastRowOffset,
+        [`${Selectors.wrappers}`]: {
+            display: 'contents',
+            '>[data-column-id]': { display: 'flex', alignItems: 'center' },
+            [`>${Selectors.nonEmpty}`]:
+                layout.cellPadding === false
+                    ? undefined
+                    : {
+                          padding: `${pad} calc(${pad} / 2)`,
+                      },
+        },
+        [`> ${Selectors.header}`]: columnStyles,
+        [`> ${Selectors.body}`]: {
+            [` > ${Selectors.row}`]: {
+                '&:nth-of-type(2n) > *':
+                    layout.stripe === false
+                        ? undefined
+                        : {
+                              backgroundColor:
+                                  typeof layout.stripe === 'string' ? layout.stripe : '#e8e8e8',
+                          },
+                ...columnStyles,
             },
-        }
+        },
+        ...layout.style,
     }
-    style['--last-row-offset'] = layout.lastRowOffset
-    if (layout.stripe !== false) {
-        style['.grid-row:nth-of-type(2n) > *'] = {
-            backgroundColor: typeof layout.stripe === 'string' ? layout.stripe : '#e8e8e8',
-        }
-    }
-    const columnStyles = layout.columns.reduce(
-        (css, c) => ({ ...css, [`[data-column-id="${c.id}"]`]: colStyle(layout, c) }),
-        {}
-    )
-    return deepmerge.all([style, columnStyles, layout.style || {}]) as CSSObject
-}
 
-const Grid = styled.div(({ layoutStyles }: { layoutStyles: CSSObject }) => layoutStyles)
+    return styles
+}
 
 export interface GridleyProps<Data extends any[]>
     extends GridContextProps,
@@ -87,28 +88,27 @@ export interface GridleyProps<Data extends any[]>
 }
 
 export function Gridley<Data extends any[]>(props: React.PropsWithChildren<GridleyProps<Data>>) {
-    const { className, data, children, caption, ...gridProps } = props
+    const { className, data, children, caption, defaultLayout, rowAttributes, ...gridProps } = props
 
-    const context = useGridContextProvider(props)
+    const context = useGridContextProvider({ rowAttributes, defaultLayout, ...props })
 
-    const style = React.useMemo<CSSObject>(
-        () => styleForLayout(context.state.currentLayout || { style: {}, columns: [] }),
+    const styles = React.useMemo(
+        () => css(styleForLayout(context.state.currentLayout || { style: {}, columns: [] })),
         [context.state.currentLayout]
     )
 
     return (
         <GridContextProvider value={context}>
             {caption && caption}
-            <Grid
+            <div
                 role="table"
-                className={cx('gridley', className, context.state.layoutId)}
-                layoutStyles={style}
+                className={cx('gridley', styles, className, context.state.layoutId)}
                 {...gridProps}
             >
                 <Header />
                 <Body data={data} />
                 {children}
-            </Grid>
+            </div>
         </GridContextProvider>
     )
 }

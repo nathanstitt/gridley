@@ -22,6 +22,7 @@ const gridContextReducer = produce(
         switch (action.type) {
             case 'ADD_LAYOUT': {
                 const { layout } = action
+                //draft.layouts[layout.id] = layout // draft.layouts[layout.id] || {}
                 draft.layouts[layout.id] = deepmerge(draft.layouts[layout.id] || {}, layout, {
                     arrayMerge,
                 })

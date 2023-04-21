@@ -104,11 +104,11 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
             </Layout>
 
             <Layout
-                stripe
-                stickyHeader={{ top: '30px', rowHeight: '30px', background: 'white' }}
                 id="tablet"
                 min={501}
                 max={800}
+                stripe
+                stickyHeader={{ top: '30px', rowHeight: '30px', background: 'white' }}
                 style={{
                     '.grid-cell.id': { color: 'red' },
                 }}
@@ -124,6 +124,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 id="desktop"
                 min={801}
                 max="100vw"
+                cellPadding="0.5rem"
                 stickyHeader={{ top: '30px', rowHeight: '30px', background: 'white' }}
             >
                 <Column id="id" max={120} />

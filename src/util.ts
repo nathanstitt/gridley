@@ -26,7 +26,7 @@ export function useCurrentLayoutMatch<L extends Record<string, LayoutSpec>>(
     forceLayout?: string
 ): [string, LayoutSpec] {
     const findMatch = React.useCallback(() => {
-        if (forceLayout) return null
+        if (forceLayout) return forceLayout
 
         return Object.keys(layouts).find((layoutId) => {
             const { min, max } = layouts[layoutId]! // eslint-disable-line
