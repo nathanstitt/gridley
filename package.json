@@ -8,7 +8,7 @@
     "module": "./dist/gridley.es.js",
     "source": "src/index.ts",
     "typings": "dist/index.d.ts",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "scripts": {
         "start": "vite",
         "build": "./bin/build",
@@ -22,11 +22,15 @@
         "lint": "eslint ."
     },
     "peerDependencies": {
-        "@emotion/styled": ">=10",
         "@emotion/react": ">=10",
+        "@emotion/styled": ">=10",
         "react": ">=17"
     },
-    "files": ["README.md", "src", "dist"],
+    "files": [
+        "README.md",
+        "src",
+        "dist"
+    ],
     "devDependencies": {
         "@emotion/css": "^11.10.6",
         "@emotion/react": "^11.10.6",
@@ -58,8 +62,8 @@
         "react-dom": "^18.2.0",
         "typescript": "^5.0.4",
         "vite": "^4.3.1",
-        "vitest": "^0.30.1",
-        "vite-plugin-dts": "^2.3.0"
+        "vite-plugin-dts": "^2.3.0",
+        "vitest": "^0.30.1"
     },
     "dependencies": {
         "deepmerge": ">=4",
