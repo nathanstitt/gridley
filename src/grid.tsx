@@ -62,7 +62,7 @@ const styleForLayout = (layout: LayoutSpec) => {
         [`> ${Selectors.header}`]: columnStyles,
         [`> ${Selectors.body}`]: {
             [` > ${Selectors.row}`]: {
-                '&:nth-of-type(2n) > *':
+                '&:nth-of-type(2n + 1) > *':
                     layout.stripe === false
                         ? undefined
                         : {
