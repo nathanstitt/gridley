@@ -87,9 +87,11 @@ export interface GridleyProps<Data extends any[]>
 }
 
 export function Gridley<Data extends any[]>(props: React.PropsWithChildren<GridleyProps<Data>>) {
-    const { className, data, children, caption, defaultLayout, rowAttributes, ...gridProps } = props
+    const {
+        'data-testid': testid, className, data, children, caption, ...gridProps
+    } = props
 
-    const context = useGridContextProvider({ rowAttributes, defaultLayout, ...props })
+    const context = useGridContextProvider(props)
 
     const styles = React.useMemo(
         () => css(styleForLayout(context.state.currentLayout || { style: {}, columns: [] })),
@@ -101,8 +103,8 @@ export function Gridley<Data extends any[]>(props: React.PropsWithChildren<Gridl
             {caption && caption}
             <div
                 role="table"
+                data-testid={testid}
                 className={cx('gridley', styles, className, context.state.layoutId)}
-                {...gridProps}
             >
                 <Header />
                 <Body data={data} />
