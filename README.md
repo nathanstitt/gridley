@@ -15,7 +15,7 @@ Rendering and layouts are specified in JSX without duplication. Each cell is ren
 ## Demo
 
 For an usable example of the screenshots above, try
-[the sandbox example](https://codesandbox.io/s/gridley-demo-pzo7z2?module=/example.tsx)
+[the sandbox example](https://codesandbox.io/s/gridley-demo-5w94fd?module=/example.tsx)
 as well as the source in [demo/demo.tsx](demo/demo.tsx)
 
 ## Gridley Components
