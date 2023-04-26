@@ -8,7 +8,7 @@
     "module": "./dist/gridley.es.js",
     "source": "src/index.ts",
     "typings": "dist/index.d.ts",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "scripts": {
         "start": "vite",
         "demo": "vite --open",
@@ -27,7 +27,11 @@
         "@emotion/styled": ">=10",
         "react": ">=17"
     },
-    "files": ["README.md", "src", "dist"],
+    "files": [
+        "README.md",
+        "src",
+        "dist"
+    ],
     "devDependencies": {
         "@emotion/css": "^11.10.6",
         "@emotion/react": "^11.10.6",
