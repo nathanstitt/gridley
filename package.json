@@ -11,6 +11,7 @@
     "version": "0.3.2",
     "scripts": {
         "start": "vite",
+        "demo": "vite --open",
         "build": "./bin/build",
         "serve": "vite preview",
         "prepare": "./bin/build",
@@ -26,11 +27,7 @@
         "@emotion/styled": ">=10",
         "react": ">=17"
     },
-    "files": [
-        "README.md",
-        "src",
-        "dist"
-    ],
+    "files": ["README.md", "src", "dist"],
     "devDependencies": {
         "@emotion/css": "^11.10.6",
         "@emotion/react": "^11.10.6",

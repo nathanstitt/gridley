@@ -7,11 +7,13 @@ import { useGridContextState, toPX } from './util'
 function stickyStyle(sticky?: StickySpec) {
     if (!sticky) return undefined
     return css({
-        position: 'sticky',
-        boxSizing: 'border-box',
-        background: sticky.background,
-        top: `calc(((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + ${toPX(sticky.top)})`,
-        minHeight: toPX(sticky.rowHeight),
+        '> *': {
+            position: 'sticky',
+            boxSizing: 'border-box',
+            background: sticky.background,
+            top: `calc(((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + ${toPX(sticky.top)})`,
+            minHeight: toPX(sticky.rowHeight),
+        }
     })
 }
 
