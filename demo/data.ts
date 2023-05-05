@@ -8,6 +8,7 @@ export interface Person {
 }
 
 export const makeData = (): Person[] => {
+    const addr = faker.address
     return [
         {
             id: 1,
@@ -22,7 +23,7 @@ export const makeData = (): Person[] => {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             jobTitle: faker.name.jobTitle(),
-            address: faker.address.streetAddress(true),
+            address: `${addr.streetAddress(true)} ${addr.city()} ${addr.state()} ${addr.zipCode()}`,
         }))
     )
 }

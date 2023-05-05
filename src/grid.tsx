@@ -33,6 +33,16 @@ export const Selectors = {
     row: '.grid-row',
 }
 
+const ellipsizeOverflowStyle = (c: ColumnSpec): CSSObject => {
+    if (c.ellipsizeOverflow !== true) return {}
+    return {
+        display: 'block', // override normal flex
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    }
+}
+
 const styleForLayout = (layout: LayoutSpec) => {
     const pad = toPX(layout.cellPadding)
     const columnStyles: Record<string, CSSObject> = {}
@@ -43,6 +53,7 @@ const styleForLayout = (layout: LayoutSpec) => {
             gridColumn: `auto /span ${c.colSpan || 1}`,
             gridRow: `auto /span ${c.rowSpan || 1}`,
             justifyContent: JUSTIFY_CONTENT[c.justify || 'start'],
+            ...ellipsizeOverflowStyle(c),
         }
     }
     const styles: CSSObject = {

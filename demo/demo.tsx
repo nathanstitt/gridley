@@ -129,7 +129,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 <Column id="firstName" />
                 <Column id="lastName" />
                 {showJob && <Column id="job" />}
-                <Column id="address" />
+                <Column id="address" ellipsizeOverflow />
             </Layout>
         </Grid>
     )

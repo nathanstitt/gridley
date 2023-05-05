@@ -52,6 +52,7 @@ export interface LayoutColumnSpec {
     max?: string | number
     width?: string | number
     colSpan?: number
+    ellipsizeOverflow?: boolean
     row: number
     rowSpan: number
     justify?: keyof typeof JUSTIFY_CONTENT
