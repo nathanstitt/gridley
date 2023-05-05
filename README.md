@@ -69,7 +69,7 @@ When placed inside a **Layout**, it documents how the column is placed in the gr
 -   **row** number _(optional, defaults to 1)_ Controls if a cell is wrapped onto a new line, and how much space to allocate when the header is sticky.
 -   **justify** any valid css justify-content value. Controls the alignment of items inside the column.
 -   **width** number | string _(optional)_ A fixed with for the column
--   **ellipsizeOverflow** boolean _(optional)_, Text that is too long to fit on a single line will be truncated with ellipsis. defaults to **\*false**.
+-   **ellipsizeOverflow** boolean _(optional)_, Text that is too long to fit on a single line will be truncated with ellipsis. defaults to **false**.
 
 ## Gridley Hooks
 
