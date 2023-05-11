@@ -15,6 +15,7 @@ export const makeData = (): Person[] => {
             firstName: 'Tester',
             lastName: 'McTesty',
             address: '123 Easy St, Anywhere USA',
+            phone: '555-555-5555',
             jobTitle: 'Head Cook and Dishwasher',
         },
     ].concat(
@@ -22,6 +23,7 @@ export const makeData = (): Person[] => {
             id: faker.datatype.number(),
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
+            phone: faker.phone.number('555-###-###'),
             jobTitle: faker.name.jobTitle(),
             address: `${addr.streetAddress(true)} ${addr.city()} ${addr.state()} ${addr.zipCode()}`,
         }))

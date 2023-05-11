@@ -10,6 +10,7 @@ import { toPX } from './util'
 
 const colTmplStyle = (c: ColumnSpec) => {
     if (c.row !== 1) return ''
+    if (c.colSpec) return c.colSpec
 
     let rule = ''
     if (c.width) {

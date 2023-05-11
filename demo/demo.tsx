@@ -76,6 +76,7 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                     body={<Cell render={(_: any, p: Person) => <span>{p.id}</span>} />}
                 />
                 <Column id="firstName" header={<Cell>First Name</Cell>} body={<FirstName />} />
+                <Column id="phone" header={<Cell>Phone</Cell>} body={<Cell />} />
                 <Column
                     id="lastName"
                     header={<Cell>Last Name</Cell>}
@@ -112,9 +113,11 @@ const Demo: React.FC<DemoProps> = ({ data: initialData, props }) => {
                 }}
             >
                 <Column id="firstName" />
-                <Column id="lastName" />
+                <Column id="lastName" colSpan={2} colSpec="minmax(auto, 110px) auto" />
                 <Column id="id" min={20} max={80} rowSpan={2} justify="end" />
+
                 <Column id="address" row={2} />
+                <Column id="phone" row={2} />
                 <Column id="job" row={2} />
             </Layout>
 
