@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { css, cx } from '@emotion/css'
 import type { CSSObject } from '@emotion/react'
+
 import { useGridContextProvider } from './store'
 import { Body } from './body'
 import { Header } from './header'
@@ -99,9 +100,7 @@ export interface GridleyProps<Data extends any[]>
 }
 
 export function Gridley<Data extends any[]>(props: React.PropsWithChildren<GridleyProps<Data>>) {
-    const {
-        'data-testid': testid, className, data, children, caption, ...gridProps
-    } = props
+    const { 'data-testid': testid, className, data, children, caption } = props
 
     const context = useGridContextProvider(props)
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { cx } from '@emotion/css'
-import { css }  from '@emotion/css'
+import { cx, css } from '@emotion/css'
+
 import type { LayoutSpec, StickySpec } from './types'
 import { useGridContextState, toPX } from './util'
 
@@ -11,9 +11,11 @@ function stickyStyle(sticky?: StickySpec) {
             position: 'sticky',
             boxSizing: 'border-box',
             background: sticky.background,
-            top: `calc( ((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + (${toPX(sticky.top)} + var(--gridley-top, 0px)))`,
+            top: `calc( ((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + (${toPX(
+                sticky.top
+            )} + var(--gridley-top, 0px)))`,
             minHeight: toPX(sticky.rowHeight),
-        }
+        },
     })
 }
 
@@ -24,7 +26,7 @@ function headerStyle(layout?: LayoutSpec) {
             borderBottomColor: layout?.headerSeparator.color,
             borderBottomStyle: layout?.headerSeparator.style,
             borderBottomWidth: `calc(${toPX(layout?.headerSeparator.width)} * var(--is-last-row))`,
-        }
+        },
     })
 }
 
