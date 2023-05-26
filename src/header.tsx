@@ -11,7 +11,7 @@ function stickyStyle(sticky?: StickySpec) {
             position: 'sticky',
             boxSizing: 'border-box',
             background: sticky.background,
-            top: `calc(((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + ${toPX(sticky.top)})`,
+            top: `calc( ((var(--row-offset) - 1) * ${toPX(sticky.rowHeight)}) + (${toPX(sticky.top)} + var(--gridley-top, 0px)))`,
             minHeight: toPX(sticky.rowHeight),
         }
     })
@@ -20,7 +20,7 @@ function stickyStyle(sticky?: StickySpec) {
 function headerStyle(layout?: LayoutSpec) {
     return css({
         '> *': {
-            zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + 2)',
+            zIndex: 'calc(var(--last-row-offset) - var(--row-offset) + var(--gridley-header-zindex, 2))',
             borderBottomColor: layout?.headerSeparator.color,
             borderBottomStyle: layout?.headerSeparator.style,
             borderBottomWidth: `calc(${toPX(layout?.headerSeparator.width)} * var(--is-last-row))`,
